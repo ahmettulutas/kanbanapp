@@ -1,25 +1,23 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import React, {useEffect} from 'react';
+import Auth from './auth/AuthComponent';
+import {useSelector} from 'react-redux';
+import { selectSuccess } from "./auth/AuthSlice";
+import {Routes, Route, Navigate } from "react-router-dom";
+import Boards from './components/Boards';
+import SingleBoard from './components/Board';
 
 function App() {
+  const loginBool = useSelector(selectSuccess);
+  useEffect(() => {
+
+  },[loginBool])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  <Routes>
+      {loginBool ? <Route path="/" element={<Boards />} /> : <Route path="/" element={<Auth />} />}
+      <Route path="/:id" element={<SingleBoard />} />
+      <Route path="*" element={<Navigate to="/" />} />
+  </Routes>
   );
 }
 
