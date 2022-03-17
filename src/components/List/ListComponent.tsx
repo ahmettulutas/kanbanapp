@@ -1,9 +1,10 @@
 import React from 'react';
 import { Box, Container } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import Title from './Title';
 import Card from '../Card';
-import AddCart from './Card/AddCart';
+import AddItem from './Card/AddItem';
+import EditableTitle from './Title';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
 const colorsPicker = [
   '#f1c96f',
@@ -32,18 +33,21 @@ const useStyles = makeStyles ({
       gap:"0.5rem",
       height:"fit-content",
       margin:"0.5rem",
+      position:"relative",
   }
 })
 export default function ListComponent({list}:any) {
   const classes = useStyles();
-  return (
-    <Box className={classes.root}>
-      <Title list={list}/>
-      <Card title='#EB144C'/>
-      <Card title='#72f1b7'/>
-      <Card title='#f1c96f'/>
-      <AddCart />
-    </Box>
-       
+    return (
+      <Box className={classes.root}>
+        <Box sx={{display:"flex", justifyContent:"space-between" , alignItems:"center", pr:2}}>
+          <EditableTitle list={list}/>
+          <MoreHorizIcon sx={{position:"relative", right:"0"}}/>
+        </Box>
+        <Card title='#EB144C'/>
+        <Card title='#72f1b7'/>
+        <Card title='#f1c96f'/>
+        <AddItem />
+      </Box>
 )}
 

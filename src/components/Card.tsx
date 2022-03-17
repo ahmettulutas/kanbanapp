@@ -9,6 +9,7 @@ const useStyles = makeStyles ({
         margin:"0.4rem auto",
         padding:"0.7rem",
         width:"90%",
+        cursor:"grab",
     }
   })
 export default function Card({title}:any) {

@@ -1,49 +1,47 @@
 import { Box, InputBase, Paper, Typography } from '@mui/material'
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { makeStyles } from '@mui/styles';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import EditIcon from '@mui/icons-material/Edit';
+
 
 const useStyles = makeStyles ({
-    titleContainer: {
-        backgroundColor:"#f5f5f5",
-        display:"flex",
-        justifyContent:"space-between",
-        padding:"0.5rem",
-    },
-    title: {
-        width:"100%",
-        fontSize:"20em",
-        margin:"0.2rem",
-    },
-    input: {
-        width:"100%",
-        border:"1px solid blue",
-        fontSize:"26px",
-    '&:focus': {
-        backgroundColor:"#D8D8D8",
-    },
-    },
+titleContainer: {
+    display:"flex",
+    justifyContent:"center",
+    padding:"0.5rem",
+    minHeight:"60px",
+    margin:"5px auto",
+},
+title: {
+    display:"flex",
+    alignItems:"center",
+    justifyContent:"center",
+    fontSize:"23px",
+    fontWeight:"bold",
+    margin:"0px auto",
+},
+input: {
+    border:"none",
+    fontSize:"23px",
+    fontWeight:"bold",
+    margin:"0px auto",
+    width:"100%",
+    '&:focus':{
+        outline:"none"
+    }
+},
 
 })
-function Title({list}:any) {
+export default function EditableTitle({list}:any) {
     const classes = useStyles();
-    const [open,setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
     return (
-        <Box>
-            {open ?
-             <Box className={classes.titleContainer}>
-                 <InputBase className={classes.input} inputProps={{
-                    onBlur:()=>setOpen(false),
-                    autoFocus:true,
-                    }} value={list.name}></InputBase>
-            </Box>
-            :<Box className={classes.titleContainer}>
-                <Typography onClick={() => setOpen(!open)} className={classes.title}>{list.name}</Typography>
-                <MoreHorizIcon onClick={() => setOpen(!open)}/>
-            </Box>
-            } 
+        <Box className={classes.titleContainer}>
+        { open ? 
+                <input autoFocus onBlur={()=> setOpen(false)} className={classes.input} type="text" value={list.name} style={{textAlign:"center"}}/> 
+            :
+            
+                <Typography sx={{ fontSize:"23px", fontWeight:"bold"}} onClick={() => setOpen(true)} className={classes.title}>{list.name}</Typography>
+        }
         </Box>
-
-)}
-
-export default Title;
+    )}

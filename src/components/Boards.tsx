@@ -7,7 +7,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { Box } from '@mui/system';
 import InputCard from './List/Card/InputCard';
 import AddBoxIcon from '@mui/icons-material/AddBox';
-import { Link } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
+import SingleBoard from './Board';
 const useStyles = makeStyles ({
   root:{
     display:"flex",
@@ -61,14 +62,14 @@ const useStyles = makeStyles ({
 })
 
 export default function Boards() {
-  const [list, setList] = useState([{id:1, name:'project1'}, {id:2, name:'project2'}, {id:3, name:'project3'}])
+  const [boards, setBoards] = useState([{id:1, name:'project1'}, {id:2, name:'project2'}, {id:3, name:'project3'}])
   const classes = useStyles();
   const [openDialog, setOpenDialog] = useState(false);
   const createBoardLink = (item:any) => (
     <Link style={{textDecoration: 'none', color:"black"}} to={`/${item.id}`}>
       <ListItem className={classes.listItem} button key={item.id}>
         <ArticleIcon/>
-        <Typography  >{item.name}</Typography>
+        <Typography>{item.name}</Typography>
       </ListItem> 
     </Link>
   )  
@@ -78,7 +79,7 @@ export default function Boards() {
   return (
     <Box className={classes.root}>
       <List className={classes.listContainer}>
-        {list.map(createBoardLink)}
+        {boards.map(createBoardLink)}
         <ListItem className={classes.listItem} button onClick={handleOpen}><AddBoxIcon/><Typography>New Board</Typography></ListItem>
       </List>
       <Modal
@@ -96,5 +97,8 @@ export default function Boards() {
               <InputCard />
           </Grid>  
       </Modal>
+{/*       <Routes>
+        <Route path="/:id" element={<SingleBoard />} />
+      </Routes> */}
     </Box>
 )}
