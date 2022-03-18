@@ -5,7 +5,7 @@ import {Grid, List, ListItem, Modal, TextField, Typography } from '@mui/material
 import ArticleIcon from '@mui/icons-material/Article';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box } from '@mui/system';
-import InputCard from './List/Card/InputCard';
+import InputCard from './Card/InputCard';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { Link, Route, Routes } from 'react-router-dom';
 import SingleBoard from './Board';
@@ -30,8 +30,8 @@ const useStyles = makeStyles ({
   },
   listContainer: {
     display: 'flex',
-    backgroundColor: 'lightgreen',
     margin:"auto",
+    gap:"1rem",
   },
   listItem: {
     display:"flex",
@@ -97,8 +97,5 @@ export default function Boards() {
               <InputCard />
           </Grid>  
       </Modal>
-{/*       <Routes>
-        <Route path="/:id" element={<SingleBoard />} />
-      </Routes> */}
     </Box>
 )}

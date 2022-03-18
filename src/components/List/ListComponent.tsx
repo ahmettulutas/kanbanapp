@@ -1,11 +1,13 @@
 import React from 'react';
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import Card from '../Card';
-import AddItem from './Card/AddItem';
-import EditableTitle from './Title';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import Card from '../Card/Card';
+import AddItem from '../AddItem';
+import EditableTitle from '../EditableTitle';
 
+import { AppDispatch } from '../../store';
+import { useDispatch } from 'react-redux';
+import { addList } from './ListSlice';
 const colorsPicker = [
   '#f1c96f',
   '#f76e6e',
@@ -31,18 +33,18 @@ const useStyles = makeStyles ({
       flexDirection:"column",
       width:"90%",
       gap:"0.5rem",
-      height:"fit-content",
-      margin:"0.5rem",
-      position:"relative",
+      height:"fit-content", 
+      minHeight:"80vh",
+      minWidth:"300px",
   }
 })
 export default function ListComponent({list}:any) {
+
   const classes = useStyles();
     return (
       <Box className={classes.root}>
         <Box sx={{display:"flex", justifyContent:"space-between" , alignItems:"center", pr:2}}>
           <EditableTitle list={list}/>
-          <MoreHorizIcon sx={{position:"relative", right:"0"}}/>
         </Box>
         <Card title='#EB144C'/>
         <Card title='#72f1b7'/>

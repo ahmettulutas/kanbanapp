@@ -11,26 +11,16 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import Title from './List/Title';
-import EditableTitle from './List/Title';
+import EditableTitle from './EditableTitle';
+import {SiTrello} from 'react-icons/si';
+import {FaUserCircle} from 'react-icons/fa';
 
-const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
-
-const ResponsiveAppBar = ({list}:any) => {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+export default function ResponsiveAppBar ({list}:any){
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const handleOpenNavMenu = (event:any) => {
-      console.log(event.currentTarget);
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event:any) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
@@ -39,30 +29,21 @@ const ResponsiveAppBar = ({list}:any) => {
 
   return (
     <AppBar position="static">
-      <Container sx={{ m:"auto", backgroundColor: "lightgray", color: 'black'}} maxWidth="xl">
+      <Container sx={{backgroundColor: "lightgray", color: 'black'}} maxWidth="xl">
         <Toolbar disableGutters>
-{/*           <Typography
-            variant="h6"
-            noWrap
-            component="div"
-            sx={{ mr: 2, display: { xs: 'none', md: 'flex' } }}
-          >
-            LOGO
-          </Typography> */}
-
-          <Box sx={{ flexGrow: 1, display: 'flex'}}>
+          <Box>
             <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleOpenNavMenu}
+              /* onClick={} */
               color="inherit"
             >
-              <MenuIcon />
+              <SiTrello />
             </IconButton>
           </Box>
-          <Box sx={{width:"100%",display:"flex", justifyContent:"center"}}>
+          <Box sx={{width:"100%", display:"flex", alignItems:"center", justifyContent:"center" }}>
             <EditableTitle list={list} />
           </Box>
           <Box sx={{ flexGrow: 0 }}>
@@ -99,4 +80,4 @@ const ResponsiveAppBar = ({list}:any) => {
     </AppBar>
   );
 };
-export default ResponsiveAppBar;
+

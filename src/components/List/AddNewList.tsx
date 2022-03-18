@@ -1,6 +1,6 @@
 import { makeStyles } from '@mui/styles';
 import React from 'react';
-import AddItem from './Card/AddItem';
+import AddItem from '../AddItem';
 
 const useStyles = makeStyles ({
   root: {
