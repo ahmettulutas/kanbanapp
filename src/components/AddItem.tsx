@@ -45,7 +45,7 @@ const useStyles = makeStyles ({
 })
 
 
-export default function AddItem({add}:any) {
+export default function AddItem({show, add}:any) {
   const [title, setTitle] = useState<string>('');
   const [open, setOpen] = useState(false);
   const classes = useStyles();

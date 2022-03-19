@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { IList } from '../react-app-env';
+import { IList } from '../../react-app-env';
 import { makeStyles } from '@mui/styles';
-import {Grid, List, ListItem, Modal, TextField, Typography } from '@mui/material';
+import {Button, Grid, List, ListItem, Modal, TextField, Typography } from '@mui/material';
 import ArticleIcon from '@mui/icons-material/Article';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box } from '@mui/system';
-import InputCard from './Card/InputCard';
+import InputCard from '../Card/InputCard';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { Link, Route, Routes } from 'react-router-dom';
 import SingleBoard from './Board';
-import { selectAuth, selectSuccess, selectToken } from '../auth/AuthSlice';
-import { useSelector } from 'react-redux';
-const useStyles = makeStyles ({
+import { useSelector, useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
+import { selectBoards, getBoards, createBoard } from './BoardsSlice';
+import AddItem from '../AddItem';
+const classes = {
   root:{
     display:"flex",
     justifyContent:"center",
@@ -20,12 +22,18 @@ const useStyles = makeStyles ({
     minHeight:"100vh",
   },
 
+  form: {
+    display:"grid",
+    gridTemplateColumns:"1fr auto",
+    gap:"0.4rem",
+    padding:"1rem",
+  },
   textfield:{
-    border:"2px solid #7f7f7f",
-    padding:"0.7rem",
+    padding:"0.6rem",
     "&:focus":{
-      color:"1px solid black",
-    }
+      outline:"none",
+      border:"2px solid green",
+    },
   },
   submitbutton:{
     padding:"0.5rem 2rem",
@@ -58,36 +66,36 @@ const useStyles = makeStyles ({
     backgroundColor: 'white',
     padding: '0.5rem',
   },
-  form: {
-    margin:"1rem auto",
-  },
-})
+
+}
+// This function maps and creates a list of boards;
+const createBoardLink = (item:any, key:any) => (
+  <Link key={key} style={{textDecoration: 'none', color:"black"}} to={`/${item.id}`}>
+    <ListItem sx={{...classes.listItem}} button key={item.id}>
+      <ArticleIcon/>
+      <Typography>{item.title}</Typography>
+    </ListItem> 
+  </Link>
+) 
 
 export default function Boards() {
-  const success = useSelector(selectSuccess);
-  const {failed,token} = useSelector(selectAuth);
+  const dispatch = useDispatch<AppDispatch>();
+  const {boards} = useSelector(selectBoards);
   useEffect(() => {
-    console.log("failed = ", failed, "success = ", success,"token = ",token);
-  })
-  const [boards, setBoards] = useState([{id:1, name:'project1'}, {id:2, name:'project2'}, {id:3, name:'project3'}])
-  const classes = useStyles();
+    dispatch(getBoards());
+  },[dispatch])
   const [openDialog, setOpenDialog] = useState(false);
-  const createBoardLink = (item:any, key:any) => (
-    <Link key={key} style={{textDecoration: 'none', color:"black"}} to={`/${item.id}`}>
-      <ListItem className={classes.listItem} button key={item.id}>
-        <ArticleIcon/>
-        <Typography>{item.name}</Typography>
-      </ListItem> 
-    </Link>
-  )  
   const handleOpen = () => {
     setOpenDialog(!openDialog);
   }
+  const addNewBoard = (title:string) => {
+    dispatch(createBoard({title:title}));
+  }
   return (
-    <Box className={classes.root}>
-      <List className={classes.listContainer}>
-        {boards.map(createBoardLink)}
-        <ListItem className={classes.listItem} button onClick={handleOpen}><AddBoxIcon/><Typography>New Board</Typography></ListItem>
+    <Box style={classes.root}>
+      <List style={classes.listContainer}>
+        {boards && boards.map(createBoardLink)}
+        <ListItem sx={{...classes.listItem}} button onClick={handleOpen}><AddBoxIcon/><Typography>New Board</Typography></ListItem>
       </List>
       <Modal
             open={openDialog}
@@ -96,13 +104,14 @@ export default function Boards() {
             aria-describedby="parent-modal-description"
             sx={{display:"flex", flexDirection:"column", gap:"1rem", justifyContent:"center", padding:"1rem", margin:"1rem auto",alignItems:"center"}}
           >
-          <Grid className={classes.modal} container xs={8} lg={6}>
+          <Grid sx={{...classes.modal}} item xs={6} m={3}>
               <Box sx={{p:1, display:"flex", width:"100%", justifyContent:"space-between"}}>
                 <Typography sx={{fontWeight:"bold"}}>Add New Board</Typography>
                 <CloseIcon onClick={handleOpen} sx={{cursor:"pointer","&:hover":{fill:"red"}}}/>
               </Box>
-              <InputCard />
+              <AddItem add={addNewBoard}/>
           </Grid>  
       </Modal>
     </Box>
 )}
+ 

@@ -2,11 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import loginSlice from "./auth/AuthSlice";
 import listSlice from './components/List/ListSlice';
 import cardSlice from './components/Card/CardSlice';
+import boardsSlice from "./components/Boards/BoardsSlice";
 const store = configureStore({
     reducer:{
         auth: loginSlice,
         listSlice: listSlice,
         cardSlice: cardSlice,
+        boardSlice: boardsSlice,
     }
 })
 export default store; 

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@mui/styles';
-import ResponsiveAppBar from './ResponsiveAppBar';
-import ListComponent from './List/ListComponent';
+import ResponsiveAppBar from '../ResponsiveAppBar';
+import ListComponent from '../List/ListComponent';
 import { Box } from '@mui/system';
-import AddNewList from './List/AddNewList';
+import AddNewList from '../List/AddNewList';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../store';
-import { addList , selectList} from './List/ListSlice';
-import AddItem from './AddItem';
+import { AppDispatch } from '../../store';
+import { addList , selectList} from '../List/ListSlice';
+import AddItem from '../AddItem';
 
 const useStyles = makeStyles ({
   root: {

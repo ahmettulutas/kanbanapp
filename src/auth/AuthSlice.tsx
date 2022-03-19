@@ -55,7 +55,7 @@ export const register = createAsyncThunk(
 const authSlice = createSlice({
     name: "auth",
     initialState: {
-        success: false,
+        success: getCookie('token') ? true : false,
         loading: false,
         failed:false,
         token: getCookie('token')
@@ -68,7 +68,7 @@ const authSlice = createSlice({
         [login.fulfilled.toString()]: (state:any, action: any) => {
             state.loading = false;
             state.token = action.payload;
-            state.success = getCookie('token') ? true : false;
+            state.success = true;
         },
         [login.rejected.toString()]: (state:any, action: any) => {
             state.loading = false;
@@ -79,7 +79,7 @@ const authSlice = createSlice({
         },
         [register.fulfilled.toString()]: (state:any, action: any) => {
             state.loading = false;
-            state.success = getCookie('token') ? true : false;
+            state.success = true;
             state.token = action.payload;
         },
         [register.rejected.toString()]: (state:any) => {

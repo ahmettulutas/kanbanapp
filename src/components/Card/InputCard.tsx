@@ -13,7 +13,7 @@ const useStyles = makeStyles ({
     padding:"0.6rem",
     "&:focus":{
       outline:"none",
-      border:"2px solid red",
+      border:"2px solid green",
     },
   },
 })
@@ -25,7 +25,7 @@ const classes = useStyles();
       /* THIS COMPONENT WILL BE DELETED LATER ON */
       <form className={classes.form}>
         <input className={classes.textfield} onBlur={()=>setOpen(false)} autoFocus placeholder="type a name..." type="text" ></input>
-        <Button sx={{p:"0.4rem 20px", minWidth: '30px', backgroundColor:"#7f7f7f", "&:hover":{backgroundColor:"#72f1b7"}}} type="submit" variant="contained">Add</Button>
+        <Button sx={{p:"0.4rem 20px", minWidth: '30px', backgroundColor:"#7f7f7f", "&:hover":{backgroundColor:"green"}}} type="submit" variant="contained">Add</Button>
       </form>
   )
 }

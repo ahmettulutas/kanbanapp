@@ -8,7 +8,7 @@ interface IRegisterFormProps {
   password: string | number,
   passwordConfirm: string | number,
 }
-const  Register = ()  => {
+export default function Register () {
   const [form, setForm] = useState<IRegisterFormProps>({username: '', password: '', passwordConfirm: ''});
   const dispatch = useDispatch();
   // controls the form
@@ -23,13 +23,12 @@ const  Register = ()  => {
     setForm({username: '', password: '', passwordConfirm: ''});
   }
   return (
-    <form onSubmit={handleSubmit} style={{display:"flex", margin:"1rem auto", maxWidth:"80%",flexDirection:"column", gap:"1rem"}}>
-      <Typography>Register</Typography>
-      <TextField onChange={handleChange} value={form.username} name="username" id="username" label="name" variant="filled" />
-      <TextField onChange={handleChange} value={form.password} name="password" type="password" id="password" variant="filled" />
-      <TextField onChange={handleChange} value={form.passwordConfirm} name="passwordConfirm" type="password" id="passwordConfirm" variant="filled" />
+    <form onSubmit={handleSubmit} style={{minHeight:"300px", textAlign:"center", display:"flex", margin:"1rem auto", width:"100%",flexDirection:"column", gap:"1rem"}}>
+      <Typography sx={{margin:"0rem auto", fontWeight:"bold"}}>Register</Typography>
+      <TextField onChange={handleChange} value={form.username} name="username" id="username" label="name" variant="outlined" />
+      <TextField onChange={handleChange} value={form.password} name="password" type="password" label="password" id="password" variant="outlined" />
+      <TextField onChange={handleChange} value={form.passwordConfirm} name="passwordConfirm" label="password" type="password" id="passwordConfirm" variant="outlined" />
       <Button type="submit" sx={{p:2}} variant="contained" color="success">Register</Button>
     </form>
   )
 }
-export default Register;
