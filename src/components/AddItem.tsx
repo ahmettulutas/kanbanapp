@@ -8,27 +8,39 @@ import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRou
 const useStyles = makeStyles ({
   root: {
       backgroundColor:"#f5f5f5",
-      borderRadius:"19px",
       margin:"0.3rem 1rem",
-      p:2,
       cursor:"pointer",
       display:"flex",
       alignItems:"center",
       justifyContent:"space-between",
-      border:"2px solid lightgreen",
   },
   form: {
     display:"grid",
     gridTemplateColumns:"1fr auto",
     gap:"0.4rem",
-    padding:"1rem",
+    width:"100%",
   },
   textfield:{
     padding:"0.6rem",
     "&:focus":{
       outline:"none",
-      border:"2px solid red",
+      border:"2px solid green",
+      borderRadius:"5px",
     },
+  },
+  submitbutton:{
+    border:"2px solid green",
+    padding:"0.4rem",
+    minWidth: '30px', 
+    fontWeight:"bold",
+    color:"green",
+    borderRadius:"5px",
+    backgroundColor:"white", 
+    cursor:"pointer",
+    "&:hover":{
+      color:"white",
+      backgroundColor:"green",
+    }
   },
 })
 
@@ -40,13 +52,14 @@ export default function AddItem({add}:any) {
   const handleSubmit = (e:any) => {
     e.preventDefault();
     add(title);
+    setTitle("");
   }
     return (
-      <Box className={classes.root}>
+      <Box onBlur={()=>setOpen(false)}  className={classes.root}>
         { open ? 
           <form onSubmit={handleSubmit} className={classes.form}>
-            <input onChange={(e:any) => setTitle(e.target.value)} className={classes.textfield} onBlur={()=>setOpen(false)} autoFocus placeholder="type a name..." type="text" ></input>
-            <Button sx={{p:"0.4rem 20px", minWidth: '30px', backgroundColor:"#7f7f7f", "&:hover":{backgroundColor:"#72f1b7"}}} type="submit" variant="contained">Add</Button>
+            <input value={title} onChange={(e:any) => setTitle(e.target.value)} className={classes.textfield} autoFocus placeholder="type a name..." type="text" ></input>
+            <button onClick={handleSubmit} className={classes.submitbutton} type="submit">Add</button>
           </form> : 
           <Box sx={{p:2, display:"flex", justifyContent:"flex-start ", width:"100%"}}>
             <Typography>Add...</Typography>

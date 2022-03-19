@@ -38,10 +38,9 @@ export default function EditableTitle({list}:any) {
     return (
         <Box className={classes.titleContainer}>
         { open ? 
-                <input autoFocus onBlur={()=> setOpen(false)} className={classes.input} type="text" value={list.name} style={{textAlign:"center"}}/> 
+            <input autoFocus onBlur={()=> setOpen(false)} className={classes.input} type="text" value={list.name} style={{textAlign:"center"}}/> 
             :
-            
-                <Typography sx={{ fontSize:"23px", fontWeight:"bold"}} onClick={() => setOpen(true)} className={classes.title}>{list.title}</Typography>
+            <Typography sx={{ fontSize:"23px", fontWeight:"bold"}} onClick={() => setOpen(true)} className={classes.title}>{list.title}</Typography>
         }
         </Box>
     )}

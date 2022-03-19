@@ -5,7 +5,7 @@ import {RootState} from "../../store";
 const listSlice = createSlice({
     name:"listSlice",
     initialState: {
-        list: [],
+        list: [/* {title:"newlist", id:1} */],
         loading: false,
         error: false,
     },

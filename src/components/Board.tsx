@@ -12,18 +12,17 @@ import AddItem from './AddItem';
 const useStyles = makeStyles ({
   root: {
       display:"grid",
-      gridTemplateRows:"1fr",
+      gridTemplateRows:"auto 1fr",
       minHeight:"100vh",
   },
   lists:{
-      display:"flex",
+      display:"grid",
       gap:"1rem",
       padding:"1rem 1rem",
-      gridTemplateColumns:"repeat(auto-fit, minmax(150px, 1fr))",
+      gridTemplateColumns:"repeat(auto-fit, minmax(150px,300px))",
       overflow:"scroll",
       gridAutoFlow:"flow-row",
-      margin:"1rem auto",
-      width:"100%",
+      margin:"1rem 1rem",
   }
 })
 export default function SingleBoard() {
@@ -34,15 +33,15 @@ export default function SingleBoard() {
     const newList = {title:title, id:new Date().getTime()};
     dispatch(addList(newList));
   }
+
   return (
     <div className={classes.root}>
-        <ResponsiveAppBar list={list2[0]}/>
+        <ResponsiveAppBar list={list2}/>
         <Box className={classes.lists}>
-          {list2.map((list:any) => <ListComponent key={list.id} list={list}/>)} 
-          <Box sx={{height:"fit-content", minWidth:"300px",}}>
-            <AddItem add={addNewList} />
-          </Box>
+            {list2  && list2.map((list:any) => <ListComponent key={list.id} list={list}/>)} 
+            <Box sx={{height:"fit-content"}}>
+              <AddItem add={addNewList} />
+            </Box>
         </Box>
-
     </div>
 )}

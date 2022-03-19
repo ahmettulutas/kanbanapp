@@ -9,37 +9,53 @@ function getCookie(name:any) {
 // login thunk
 export const login = createAsyncThunk(
     "auth/login",
-    async (arg:any) => {
+    async (arg:any, {rejectWithValue}) => {
         try {
-            await axios.post("http://localhost:80/auth/login", arg).then(data => {
-            document.cookie = `token=${data.data.token}`;
-            const token = getCookie('token'); 
-            console.log(token);
-            return token;
-        })} catch(error) {
-            console.log(error);
-        }  
+            const response = await axios.post("http://localhost:80/auth/login", arg);
+            if (response.status === 200) {
+                document.cookie = `token=${response.data.token}`;
+                const token = getCookie('token'); 
+                console.log("response....", response);
+                return token;
+            }
+            else {
+                console.log("response....", response.status);
+                return rejectWithValue(response);
+              }
+        } catch(err) {
+            console.log("err", err);
+            return rejectWithValue(err);
+        }
+
 })
 
 // register thunk
 export const register = createAsyncThunk(
     "auth/register",
-    async (arg:any) => {
+    async (arg:any, {rejectWithValue}) => {
         try {
-            await axios.post("http://localhost:80/auth/login", arg).then(data => {
-            document.cookie = `token=${data.data.token}`;
-            const token = getCookie('token'); 
-            console.log(token);
-            return token;
-        })} catch(error) {
-            console.log(error);
-        }  
+            const response = await axios.post("http://localhost:80/auth/register", arg);
+            if (response.status === 200) {
+                document.cookie = `token=${response.data.token}`;
+                const token = getCookie('token'); 
+                console.log("response....", response);
+                return token;
+            }
+            else {
+                console.log("response....", response.status);
+                return rejectWithValue(response);
+              }
+        } catch(err) {
+            console.log("err", err);
+            return rejectWithValue(err);
+        }
 })
+
 // auth slice that controls the token and the success of the login;
 const authSlice = createSlice({
     name: "auth",
     initialState: {
-        success: getCookie('token') ? true : false,
+        success: false,
         loading: false,
         failed:false,
         token: getCookie('token')
@@ -51,10 +67,10 @@ const authSlice = createSlice({
         },
         [login.fulfilled.toString()]: (state:any, action: any) => {
             state.loading = false;
-            state.success = true;
             state.token = action.payload;
+            state.success = getCookie('token') ? true : false;
         },
-        [login.rejected.toString()]: (state:any) => {
+        [login.rejected.toString()]: (state:any, action: any) => {
             state.loading = false;
             state.failed = true;
         },
@@ -63,7 +79,7 @@ const authSlice = createSlice({
         },
         [register.fulfilled.toString()]: (state:any, action: any) => {
             state.loading = false;
-            state.success = true;
+            state.success = getCookie('token') ? true : false;
             state.token = action.payload;
         },
         [register.rejected.toString()]: (state:any) => {
@@ -78,5 +94,5 @@ export default authSlice.reducer;
 export const selectToken = (state:any) => state.auth.token;
 export const selectSuccess = (state:any) => state.auth.success;
 export const selectUserId = (state:any) => state.auth.userId;
-
-
+export const selectFailed = (state:any) => state.auth.failed;
+export const selectAuth = (state:any) => state.auth;

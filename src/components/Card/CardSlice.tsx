@@ -16,4 +16,4 @@ const cardSlice = createSlice({
 })
 export default cardSlice.reducer;
 export const {addCard} = cardSlice.actions;
-const selectCards = (state:RootState) => state.cardSlice.card;
+export const selectCards = (state:RootState) => state.cardSlice.card;

@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import Card from '../Card/Card';
 import AddItem from '../AddItem';
 import EditableTitle from '../EditableTitle';
-
 import { AppDispatch } from '../../store';
-import { useDispatch } from 'react-redux';
-import { addList } from './ListSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCard, selectCards } from '../Card/CardSlice';
+
 const colorsPicker = [
   '#f1c96f',
   '#f76e6e',
@@ -31,25 +31,29 @@ const useStyles = makeStyles ({
       borderRadius:"5px",
       display:"flex",
       flexDirection:"column",
-      width:"90%",
       gap:"0.5rem",
       height:"fit-content", 
       minHeight:"80vh",
-      minWidth:"300px",
   }
 })
 export default function ListComponent({list}:any) {
-
+  const cards = useSelector(selectCards);
+  useEffect(() => {
+    console.log(cards);
+  }, [cards])
+  const dispatch = useDispatch<AppDispatch>();
+  const addNewCard = (title:string) => {
+    const newCard = {title:title, listId:list.id, id:new Date().getTime(), color:colorsPicker[Math.floor(Math.random() * colorsPicker.length)]};
+    dispatch(addCard(newCard));
+  } 
   const classes = useStyles();
     return (
       <Box className={classes.root}>
         <Box sx={{display:"flex", justifyContent:"space-between" , alignItems:"center", pr:2}}>
           <EditableTitle list={list}/>
         </Box>
-        <Card title='#EB144C'/>
-        <Card title='#72f1b7'/>
-        <Card title='#f1c96f'/>
-        <AddItem />
+        {cards && cards.map((card:any) => <Card key={card.id} card={card}/>)}
+        <AddItem add={addNewCard} />
       </Box>
 )}
 

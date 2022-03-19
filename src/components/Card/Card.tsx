@@ -12,12 +12,12 @@ const useStyles = makeStyles ({
         padding:"1.2rem 0.5rem",
     }
   })
-export default function Card({title}:any) {
+export default function Card({card}:any) {
     const classes = useStyles();
     return (
-        <Paper sx={{border:`2px solid ${title}`}} className={classes.root}>
+        <Paper sx={{border:`2px solid ${card.color}`}} className={classes.root}>
             <MoreHorizIcon sx={{position:"absolute", right:4, top:0}}/>
-            <Typography>Contrary to popular belief, Lorem Ipsum is not simply random text. </Typography>
+            <Typography>{card.title}</Typography>
         </Paper>
     )
     }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IList } from '../react-app-env';
 import { makeStyles } from '@mui/styles';
 import {Grid, List, ListItem, Modal, TextField, Typography } from '@mui/material';
@@ -9,6 +9,8 @@ import InputCard from './Card/InputCard';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { Link, Route, Routes } from 'react-router-dom';
 import SingleBoard from './Board';
+import { selectAuth, selectSuccess, selectToken } from '../auth/AuthSlice';
+import { useSelector } from 'react-redux';
 const useStyles = makeStyles ({
   root:{
     display:"flex",
@@ -62,11 +64,16 @@ const useStyles = makeStyles ({
 })
 
 export default function Boards() {
+  const success = useSelector(selectSuccess);
+  const {failed,token} = useSelector(selectAuth);
+  useEffect(() => {
+    console.log("failed = ", failed, "success = ", success,"token = ",token);
+  })
   const [boards, setBoards] = useState([{id:1, name:'project1'}, {id:2, name:'project2'}, {id:3, name:'project3'}])
   const classes = useStyles();
   const [openDialog, setOpenDialog] = useState(false);
-  const createBoardLink = (item:any) => (
-    <Link style={{textDecoration: 'none', color:"black"}} to={`/${item.id}`}>
+  const createBoardLink = (item:any, key:any) => (
+    <Link key={key} style={{textDecoration: 'none', color:"black"}} to={`/${item.id}`}>
       <ListItem className={classes.listItem} button key={item.id}>
         <ArticleIcon/>
         <Typography>{item.name}</Typography>

@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useEffect} from 'react';
+import React from 'react';
 import Auth from './auth/AuthComponent';
 import {useSelector} from 'react-redux';
 import { selectSuccess } from "./auth/AuthSlice";
@@ -9,9 +9,6 @@ import SingleBoard from './components/Board';
 
 function App() {
   const loginBool = useSelector(selectSuccess);
-  useEffect(() => {
-
-  },[loginBool])
   return (
   <Routes>
       {loginBool ? <Route path="/" element={<Boards />} /> : <Route path="/" element={<Auth />} />}

@@ -2,13 +2,19 @@ import Register from './Register';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import {Grid} from '@mui/material';
 import Login from "./Login";
+import {useSelector} from 'react-redux';
+import {selectAuth} from './AuthSlice';
 
 export default function Auth() {
+  const {failed,token} = useSelector(selectAuth)
+  useEffect(() => {
+    console.log(failed,token)
+  },[failed,token])
   // useState to control the tab
     const [value,setValue] = useState("1");
     const handleChange = (event:React.SyntheticEvent<Element, Event>, newValue:string) => {
