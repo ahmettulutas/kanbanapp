@@ -34,7 +34,7 @@ export const register = createAsyncThunk(
     "auth/register",
     async (arg:any, {rejectWithValue}) => {
         try {
-            const response = await axios.post("http://localhost:80/auth/register", arg);
+            const response = await axios.post("http://localhost:80/auth/register", arg)
             if (response.status === 200) {
                 document.cookie = `token=${response.data.token}`;
                 const token = getCookie('token'); 

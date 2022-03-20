@@ -13,6 +13,7 @@ const useStyles = makeStyles ({
       display:"flex",
       alignItems:"center",
       justifyContent:"space-between",
+      padding:"1rem",
   },
   form: {
     display:"grid",
@@ -56,15 +57,15 @@ export default function AddItem({show, add}:any) {
   }
     return (
       <Box onBlur={()=>setOpen(false)}  className={classes.root}>
-        { open ? 
+{/*         { open ?  */}
           <form onSubmit={handleSubmit} className={classes.form}>
             <input value={title} onChange={(e:any) => setTitle(e.target.value)} className={classes.textfield} autoFocus placeholder="type a name..." type="text" ></input>
             <button onClick={handleSubmit} className={classes.submitbutton} type="submit">Add</button>
-          </form> : 
+          </form> {/* : 
           <Box sx={{p:2, display:"flex", justifyContent:"flex-start ", width:"100%"}}>
             <Typography>Add...</Typography>
             <AddCircleOutlineRoundedIcon onClick={() => setOpen(true)}>Add a card...</AddCircleOutlineRoundedIcon>
           </Box>
-        }
+        } */}
       </Box>
 )}
