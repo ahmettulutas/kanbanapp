@@ -12,18 +12,15 @@ export const login = createAsyncThunk(
     async (arg:any, {rejectWithValue}) => {
         try {
             const response = await axios.post("http://localhost:80/auth/login", arg);
+            console.log("logging in to the server", response.data);
             if (response.status === 200) {
                 document.cookie = `token=${response.data.token}`;
-                const token = getCookie('token'); 
-                console.log("response....", response);
-                return token;
+                return response.data;
             }
             else {
-                console.log("response....", response.status);
                 return rejectWithValue(response);
               }
         } catch(err) {
-            console.log("err", err);
             return rejectWithValue(err);
         }
 
@@ -35,18 +32,15 @@ export const register = createAsyncThunk(
     async (arg:any, {rejectWithValue}) => {
         try {
             const response = await axios.post("http://localhost:80/auth/register", arg)
+            console.log("registering to the server", response.data);
             if (response.status === 200) {
                 document.cookie = `token=${response.data.token}`;
-                const token = getCookie('token'); 
-                console.log("response....", response);
-                return token;
+                return response.data;
             }
             else {
-                console.log("response....", response.status);
                 return rejectWithValue(response);
               }
         } catch(err) {
-            console.log("err", err);
             return rejectWithValue(err);
         }
 })
@@ -54,11 +48,12 @@ export const register = createAsyncThunk(
 // auth slice that controls the token and the success of the login;
 const authSlice = createSlice({
     name: "auth",
-    initialState: {
+    initialState: { 
         success: getCookie('token') ? true : false,
         loading: false,
         failed:false,
-        token: getCookie('token')
+        token: getCookie('token'),
+        userId: "",
     },
     reducers:{},
     extraReducers: {
@@ -67,8 +62,9 @@ const authSlice = createSlice({
         },
         [login.fulfilled.toString()]: (state:any, action: any) => {
             state.loading = false;
-            state.token = action.payload;
+            state.token = action.payload.token;
             state.success = true;
+            state.userId = action.payload.id;
         },
         [login.rejected.toString()]: (state:any, action: any) => {
             state.loading = false;

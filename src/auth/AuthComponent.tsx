@@ -11,16 +11,13 @@ import {useSelector} from 'react-redux';
 import {selectAuth} from './AuthSlice';
 import LoadingComponent from '../components/LoadingComponent';
 export default function Auth() {
-  const {loading, failed,token} = useSelector(selectAuth)
-  useEffect(() => {
-    console.log(failed,token)
-  },[failed,token])
+  const {loading} = useSelector(selectAuth);
   // useState to control the tab
-    const [value, setValue] = useState("1");
-    const handleChange = (event:React.SyntheticEvent<Element, Event>, newValue:string) => {
-        setValue(newValue)
-    }
-    
+  const [value, setValue] = useState("1");
+  const handleChange = (event:React.SyntheticEvent<Element, Event>, newValue:string) => {
+      setValue(newValue)
+  }
+  
   return (
     loading ?   <LoadingComponent />  :  
       <TabContext value={value}>
@@ -37,8 +34,5 @@ export default function Auth() {
           </Grid>
         </Box>
       </TabContext>
-  )
-}
-const style = {
-
-}
+  
+)}

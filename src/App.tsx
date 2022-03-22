@@ -1,5 +1,4 @@
 import './App.css';
-import React from 'react';
 import Auth from './auth/AuthComponent';
 import {useSelector} from 'react-redux';
 import { selectSuccess } from "./auth/AuthSlice";
@@ -13,7 +12,7 @@ import ResponsiveAppBar from './components/ResponsiveAppBar';
 function App() {
   const loginBool = useSelector(selectSuccess);
   return (
-    <main style={{minHeight:"100vh", display:"grid", gridTemplateRows:"auto 1fr"}}>
+    <main style={{minHeight:"100vh", display:"grid", gridTemplateRows:"auto 1fr "}}>
       <ResponsiveAppBar />
       <section>
         <Routes>

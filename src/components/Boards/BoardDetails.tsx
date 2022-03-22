@@ -1,13 +1,14 @@
 import { Box, Typography } from '@mui/material'
-import React from 'react'
-/* import ModalHeader from './ModalHeader'; */
+import { useEffect, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditableTitle from '../EditableTitle';
 import { makeStyles } from '@mui/styles';
 import {deleteBoard, updateBoard} from "./BoardsSlice";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store';
+import BoardMembers from './BoardMembers';
+import {selectUserId} from '../../auth/AuthSlice';  // we need userId to toggle edit board mode. 
 const useStyles = makeStyles ({
     root:{
         display:'grid', 
@@ -18,11 +19,15 @@ const useStyles = makeStyles ({
     header: {
         display:'flex',
         alignItems:'center',
-        justifyContent:'flex-start',
+        justifyContent:'center',
         backgroundColor:"#1572A1",
         color:'white',
-        padding:'0 0.5rem',
         position:'relative',
+        padding:"0.2rem",
+    },
+    title: {
+        fontSize:'20px',
+        padding:"auto",
     },
     body: {
         padding:"1rem",
@@ -33,7 +38,7 @@ const useStyles = makeStyles ({
         justifyContent:'center',
         backgroundColor:"#1572A1",
         color:"white",
-        padding:'1rem',
+        padding:'0.2rem',
         cursor:"pointer", 
         fontWeight:'bold',
         transition:'0.3s ease-in-out',
@@ -42,30 +47,39 @@ const useStyles = makeStyles ({
         }
     }
 })
-
+// item prop is the individual board object, open prop is the state of the modal
 export default function BoardDetails({item, open}:any) {
-  const dispatch = useDispatch<AppDispatch>();
-  const boardDetails = useStyles();
-  const handleDeleteBoard = () => {
+const userId = useSelector(selectUserId);
+useEffect(() => {
+    if(userId === item.ownerId) {
+        setEditMode(true);
+    }
+    console.log("editmode", item.ownerId, userId)
+}, [])
+const [editMode, setEditMode] = useState(false);
+const dispatch = useDispatch<AppDispatch>();
+const boardDetails = useStyles();
+const handleDeleteBoard = () => {
     dispatch(deleteBoard(item.id));
     open();
-  }
-  const handleUpdateBoard = (title:any) => {
+}
+const handleUpdateBoard = (title:any) => {
     dispatch(updateBoard({id:item.id, title}));
-  }
-  return (
+}
+
+return (
     <Box className={boardDetails.root}>
         <Box className={boardDetails.header}>
-            <EditableTitle update={handleUpdateBoard} title={item.title}/>
-            <CloseIcon onClick={open} sx={{position:"absolute", top:0, right:0, fontSize:"x-large", cursor:"pointer", fill:"white",'&:hover':{fill:"red"}}}/>
+            {editMode ? <EditableTitle update={handleUpdateBoard} title={item.title}/> : <Typography className={boardDetails.title}>{item.title}</Typography>}
+            <CloseIcon onClick={open} sx={{position:"absolute", top:0, right:0, fontSize:"x-large", cursor:"pointer", fill:"white",'&:hover':{fill:"red"}}}/> 
         </Box>
         <Box>
         <Box className={boardDetails.body}>
             <Typography>Created At: {item.createdAt}</Typography>
-            members...
+            <BoardMembers editMode={editMode} id={item.id}/>
         </Box>
         </Box>
-        <Box onClick={handleDeleteBoard} className={boardDetails.footer}>
+        <Box className={boardDetails.footer} onClick={handleDeleteBoard} >
             <Typography>Delete This Board</Typography>
             <DeleteIcon/>
         </Box>

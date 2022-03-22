@@ -8,23 +8,21 @@ const useStyles = makeStyles ({
 titleContainer: {
     display:"flex",
     justifyContent:"center",
+    alignItems:"center",
     minHeight:"60px",
     margin:"5px auto",
 },
 title: {
-    display:"flex",
-    alignItems:"center",
-    justifyContent:"center",
     fontSize:"23px",
     fontWeight:"bold",
     margin:"0px auto",
 },
 input: {
     position:"relative",
-    color:"white",
-    border:"1px solid white",
+    border:"1px solid inherit",
     fontSize:"23px",
     fontWeight:"bold",
+    color:"inherit",
     textAlign:"center",
     width:"100%",
     background:"transparent",
@@ -36,10 +34,9 @@ form:{
     display:"flex",
     position:"relative",
     alignItems:"stretch",
-
 },
 checkIcon:{
-    color:"white",
+    color:"orange",
     position:"absolute",
     fontWeight:"bold",
     fontSize:"30px",
@@ -54,7 +51,7 @@ checkIcon:{
 },
 closeIcon:{
     cursor:"pointer",
-    color:"white",
+    color:"orange",
     position:"absolute",
     fontWeight:"bold",
     fontSize:"15px",
@@ -81,7 +78,7 @@ export default function EditableTitle({title, update}:any) {
                 <CheckIcon className={classes.checkIcon} onClick={handleEdit}/>
             </form>
             :
-            <Typography sx={{ fontSize:"23px", fontWeight:"bold"}} onClick={() => setOpen(true)} className={classes.title}>{title}</Typography>
+            <Typography onClick={() => setOpen(true)} className={classes.title}>{title}</Typography>
         }
         </Box>
     )}

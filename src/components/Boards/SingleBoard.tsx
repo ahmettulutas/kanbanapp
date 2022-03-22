@@ -36,12 +36,11 @@ export default function SingleBoard() {
     const newList = {title:title, id:new Date().getTime()};
     dispatch(addList(newList));
   }
-  useEffect(()=>{
+  useEffect(()=> {
     console.log("param is", id);
   })
   return (
     <div className={classes.root}>
-
         <EditableTitle title={"title"}/>
         <Box className={classes.lists}>
           {list2 && list2.map((list:any) => (<ListComponent key={list.id} list={list}/>))} 

@@ -1,6 +1,8 @@
+/* THIS MODULE INCLUDES THUNKS, REDUCERS AND SELECTORS RELATED TO BOARDS */
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
 
+// This function is used to get the token from the cookie
 function getCookie(name:any) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -12,6 +14,7 @@ let token = getCookie('token');
 export const getBoards = createAsyncThunk(
     'boards/getBoards',
     async (_, {rejectWithValue}) => {
+        // no args passed to this thunk and we destructure the rejectWithValue. 
         try {
             let token = await getCookie('token'); 
             const response = await axios.get("http://localhost:80/board", {headers: {'Authorization': `Bearer ${token}`}});
@@ -29,7 +32,6 @@ export const getBoards = createAsyncThunk(
 export const createBoard = createAsyncThunk(
     'boards/createBoard',
     async(arg:any, {rejectWithValue}) => {
-
         try {
             let token = getCookie('token');
             const response = await axios.post("http://localhost:80/board", arg, {headers: {'Authorization': `Bearer ${token}`}});
@@ -51,7 +53,7 @@ export const deleteBoard = createAsyncThunk(
             const response = await axios.delete(`http://localhost:80/board/${arg}`, {headers: {'Authorization': `Bearer ${token}`}});
             console.log("deleting board from the server", response.data);
             if (response.status === 200) {
-                return arg; // Here we return the id of the board that was deleted to filte it from store state because api response returns deleted string only.
+                return arg; // Here we return the id of the board that was deleted to filter it from the redux state because api response returns deleted string only.
             }
             else {
                 return rejectWithValue(response);
@@ -85,7 +87,6 @@ const boardSlice = createSlice({
         error: false,
     },
     reducers: {
-
     },
     extraReducers:{
         [getBoards.fulfilled.toString()]: (state:any, action:any) => {
@@ -111,13 +112,13 @@ const boardSlice = createSlice({
         },
         [deleteBoard.pending.toString()]: (state:any) => {
             state.isloading = true;
-
         },
         [deleteBoard.rejected.toString()]: (state:any, action:any) => {
             state.error = true;
         },
         [updateBoard.fulfilled.toString()]: (state:any, action:any) => {
-            state.boards = state.boards.map((board:any) => board.id === action.payload.id ? action.payload : board);
+            const {title, id} = action.payload;
+            state.boards = state.boards.map((board:any) => board.id === id ? {...board, title:title}: board);
         },
         [updateBoard.pending.toString()]: (state:any) => {
             state.isloading = true;

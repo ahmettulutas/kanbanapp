@@ -10,7 +10,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import {SiTrello} from 'react-icons/si';
 import { Link } from 'react-router-dom';
-
+import {FaUserEdit} from 'react-icons/fa';
 export default function ResponsiveAppBar ({list}:any){
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const handleOpenUserMenu = (event:any) => {
@@ -35,8 +35,12 @@ export default function ResponsiveAppBar ({list}:any){
           </Link>
           <Box>
             <Tooltip title="Open settings">
-              <IconButton color="primary" onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+              <IconButton               size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              color="primary" onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                <FaUserEdit />  
               </IconButton>
             </Tooltip>
             <Menu
@@ -55,11 +59,9 @@ export default function ResponsiveAppBar ({list}:any){
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-{/*               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))} */}
+              <MenuItem onClick={handleCloseUserMenu}>
+                <Typography textAlign="center">Settings</Typography>
+              </MenuItem>
             </Menu>
           </Box>
       </Container>

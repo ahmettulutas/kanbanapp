@@ -50,7 +50,7 @@ export default function ListComponent({list}:any) {
     return (
       <Box className={classes.root}>
         <Box sx={{display:"flex", justifyContent:"space-between" , alignItems:"center", pr:2}}>
-          <EditableTitle list={list}/>
+          <EditableTitle title={list.title}/>
         </Box>
         {cards && cards.map((card:any) => <Card key={card.id} card={card}/>)}
         <AddItem add={addNewCard} />
