@@ -49,7 +49,7 @@ export const register = createAsyncThunk(
 const authSlice = createSlice({
     name: "auth",
     initialState: { 
-        success: getCookie('token') ? true : false,
+        success: /* getCookie('token') ? true : false, */ false,
         loading: false,
         failed:false,
         token: getCookie('token'),

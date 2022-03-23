@@ -1,11 +1,10 @@
 import { Avatar, AvatarGroup, Grid, ListItem, Modal, Typography } from '@mui/material';
-import { classes } from './boardsStyling';
+import { classes, getRandomColor } from './boardsStyling';
 import React, { useState, useEffect } from 'react'
 import EditIcon from '@mui/icons-material/Edit';
 import { SiTrello } from 'react-icons/si';
 import BoardDetails from './BoardDetails';
 import { Link } from 'react-router-dom';
-import { Box } from '@mui/system';
 import { useSelector } from 'react-redux';
 
 export default function BoardLink({item, key}:any) {
@@ -33,7 +32,7 @@ export default function BoardLink({item, key}:any) {
             <SiTrello />
             <Typography>{item.title}</Typography>
             <AvatarGroup sx={{...classes.smallIcons}} max={3}>
-                {members && item.members.map((item:any) => <Avatar key={item.id} alt='user1' >{item.username[0]}</Avatar>)}
+                {members && item.members.map((item:any) => <Avatar sx={{backgroundColor:`${getRandomColor()}`,...classes.avatarIcon}} key={item.id} alt='user1' >{item.username[0]}</Avatar>)}
             </AvatarGroup>
         </Link>
     </ListItem>

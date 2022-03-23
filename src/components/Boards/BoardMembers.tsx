@@ -2,13 +2,14 @@ import {useEffect, useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import List from '@mui/material/List';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import { IconButton, ListItem, ListItemIcon } from '@mui/material';
+import { Button, IconButton, ListItem, ListItemIcon, Typography } from '@mui/material';
 import {updateBoard, getBoards} from './BoardsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PersonIcon from '@mui/icons-material/Person';
 import ListItemText from '@mui/material/ListItemText';
+import AddIcon from '@mui/icons-material/Add';
 import { makeStyles } from '@mui/styles';
 import { Box } from '@mui/system';
 import axios from 'axios';
@@ -65,14 +66,14 @@ export default function BoardMembers({id, editMode}:any) {
   }
   const classes = useStyles();
   return (
-    <Box sx={{width:"100%", border:"2px solid black", display:"flex", flexDirection:"column"}}>
-      <List dense sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-      aria-labelledby="nested-list-subheader" /* dense={false} */>
+    <Box sx={{width:"100%", border:"2px solid black", display:"flex", flexDirection:"column", textAlign:"center"}}>
+      <Typography>Members of this board..</Typography>
+      <List sx={{m:0.5}}>
       {members && members.map((item:any) =>                
         <ListItem sx={{height:"auto", border:"2px solid blue", p:0}}
             secondaryAction={
             <IconButton edge="end" aria-label="delete">
-              <DeleteIcon onClick={() => handleDelete(item)} />
+              {editMode && <DeleteIcon onClick={() => handleDelete(item)} />} 
             </IconButton>
           }>
           <ListItemIcon>
@@ -83,10 +84,13 @@ export default function BoardMembers({id, editMode}:any) {
           </ListItem>)}
     </List>
     {editMode && 
-        <form style={{display:"flex", flexDirection:"column", width:"100%", height:"150px"}} onSubmit={handleAdd}>
-        <input onChange={(e:any) => setMemberName(e.target.value)}value={memberName} type="text" placeholder="add member"></input>
-        <button type="submit">add</button>
-     </form>}
+      <form style={{display:"flex", flexDirection:"column", width:"100%"}} onSubmit={handleAdd}>
+        <input style={{padding:"5px",margin:"0.2rem 3rem" }} onChange={(e:any) => setMemberName(e.target.value)}value={memberName} type="text" placeholder="add member"></input>
+{/*         <button style={{padding:"5px",margin:"0.2rem 3rem", backgroundColor:"#1572A1", color:'white' }} type="submit">add</button>
+ */}        <Button type="submit" sx={{padding:"5px",margin:"0.2rem 3rem", }}variant='outlined' color='success' startIcon={<AddIcon />}>
+  Add
+</Button>
+      </form>}
     </Box>
 
 )}

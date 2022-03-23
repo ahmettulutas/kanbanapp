@@ -1,3 +1,26 @@
+import { colors } from "@mui/material";
+
+const colorsPicker = [
+  '#f1c96f',
+  '#f76e6e',
+  '#8086ca',
+  '#72f1b7',
+  '#000000',
+  '#FF6900',
+  '#FCB900',
+  '#7BDCB5',
+  '#00D084',
+  '#8ED1FC',
+  '#0693E3',
+  '#ABB8C3',
+  '#EB144C',
+  '#F78DA7',
+  '#9900EF'
+];
+export const getRandomColor = () => {
+  let i = Math.floor(Math.random()* colorsPicker.length)
+  return colorsPicker[i];
+}
 export const classes = {
     root:{
       display:"flex",
@@ -82,12 +105,14 @@ export const classes = {
       bottom:"0",
       right:"4px",
       overflow:"hidden",
-      ' & *':{
+
+      },
+      avatarIcon:{
         border:"none",
         height:'11px',
         width:'11px',
         padding:'4px',
-        fontSize:"15px",
-      }
+        fontSize:"12px",
+        
   },
 }

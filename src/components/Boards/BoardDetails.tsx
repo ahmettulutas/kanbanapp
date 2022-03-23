@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import CloseIcon from '@mui/icons-material/Close';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditableTitle from '../EditableTitle';
 import { makeStyles } from '@mui/styles';
 import {deleteBoard, updateBoard} from "./BoardsSlice";
@@ -31,6 +32,7 @@ const useStyles = makeStyles ({
     },
     body: {
         padding:"1rem",
+        display:"flex",
     },
     footer: {
         display:'flex',
@@ -79,9 +81,16 @@ return (
             <BoardMembers editMode={editMode} id={item.id}/>
         </Box>
         </Box>
+        {editMode ?
         <Box className={boardDetails.footer} onClick={handleDeleteBoard} >
             <Typography>Delete This Board</Typography>
             <DeleteIcon/>
         </Box>
+        :
+        <Box className={boardDetails.footer} onClick={handleDeleteBoard} >
+            <Typography>Display Only</Typography>
+            <VisibilityIcon/>
+        </Box>
+        }
     </Box>
 )}
