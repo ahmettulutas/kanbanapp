@@ -1,34 +1,78 @@
 import {useEffect, useState} from 'react';
-import Avatar from '@mui/material/Avatar';
-import List from '@mui/material/List';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import { Button, IconButton, ListItem, ListItemIcon, Typography } from '@mui/material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import Chip from '@mui/material/Chip';
+
+import { IconButton, InputAdornment, InputBase,} from '@mui/material';
 import {updateBoard, getBoards} from './BoardsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store';
-import DeleteIcon from '@mui/icons-material/Delete';
 import PersonIcon from '@mui/icons-material/Person';
-import ListItemText from '@mui/material/ListItemText';
 import AddIcon from '@mui/icons-material/Add';
 import { makeStyles } from '@mui/styles';
 import { Box } from '@mui/system';
 import axios from 'axios';
 import { selectToken } from '../../auth/AuthSlice';
+
 const useStyles = makeStyles ({
-    smallIcons:{
-        height:'35px',
-        display:'flex',
-        alignItems:'center',
-        bottom:"0",
-        right:"4px",
-        overflow:"hidden",
-        ' & *':{
-            height:'15px',
-            width:'15px',
-            padding:'5px',
-            fontSize:"14px",
-        }
+    root:{
+      gap:"0.2rem", 
+      flexWrap:"wrap", 
+      display:"flex", 
+      borderRadius:"20px", 
+      margin:"1rem",
+      padding:"0.6rem",
     },
+    smallIcons:{
+      height:'35px',
+      display:'flex',
+      alignItems:'center',
+      bottom:"0",
+      right:"4px",
+      overflow:"hidden",
+      ' & *':{
+          height:'15px',
+          width:'15px',
+          padding:'5px',
+          fontSize:"14px",
+      }
+    },
+    memberButton: {
+      margin: 10,
+      borderRadius: '45px',
+      height: '35px',
+      padding: '10',
+      gap: '15px',
+      color: 'green',
+      border: '1px solid black',
+      '&:hover': {
+        backgroundColor: 'lightgray',
+        border: '1px solid black',
+      },
+    },
+    fieldset: {
+
+    },
+    input: {
+      maxWidth:"20%",
+      fontSize:"14px",
+      color: "green",
+      border:"1px solid black",
+      background:"#EBEBEB",
+      borderRadius:"45px",
+      padding:'0px 4px 0px 10px',
+      "& .MuiOutlinedInput-root": {
+        "& fieldset": {
+          borderColor: "rgba(0, 0, 0, 0.23)", // default
+          padding:"0px",
+          height:"15px",
+        },
+        "&.Mui-focused fieldset": {
+          border: "2px solid red" // customized
+        }
+      }
+    }
+
 })
 // this component's id param is the id of the board.
 export default function BoardMembers({id, editMode}:any) {
@@ -40,8 +84,7 @@ export default function BoardMembers({id, editMode}:any) {
   const [memberName, setMemberName] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   // this function adds a member to the board. Since the response of addBoardmember doesn't fit with the board slice, I solved it by dispatching another action to update the board slice.
-  const handleAdd = async(e:any) => {
-      e.preventDefault();
+  const handleAdd = async() => {
       axios.post("http://localhost:80/board-member", {boardId:id, username:memberName}, {headers: {'Authorization': `Bearer ${token}`}}).then(res => {
           console.log("adding member to the server", res.data);
       }).catch(err => {
@@ -66,33 +109,32 @@ export default function BoardMembers({id, editMode}:any) {
   }
   const classes = useStyles();
   return (
-    <Box sx={{width:"100%", border:"2px solid black", display:"flex", flexDirection:"column", textAlign:"center"}}>
-      <Typography>Members of this board..</Typography>
-      <List sx={{m:0.5}}>
-      {members && members.map((item:any) =>                
-        <ListItem sx={{height:"auto", border:"2px solid blue", p:0}}
-            secondaryAction={
-            <IconButton edge="end" aria-label="delete">
-              {editMode && <DeleteIcon onClick={() => handleDelete(item)} />} 
-            </IconButton>
-          }>
-          <ListItemIcon>
-            <PersonIcon />
-          </ListItemIcon>
-          <ListItemText
-            primary={item.username}/>
-          </ListItem>)}
-    </List>
-    {editMode && 
-      <form style={{display:"flex", flexDirection:"column", width:"100%"}} onSubmit={handleAdd}>
-        <input style={{padding:"5px",margin:"0.2rem 3rem" }} onChange={(e:any) => setMemberName(e.target.value)}value={memberName} type="text" placeholder="add member"></input>
-{/*         <button style={{padding:"5px",margin:"0.2rem 3rem", backgroundColor:"#1572A1", color:'white' }} type="submit">add</button>
- */}        <Button type="submit" sx={{padding:"5px",margin:"0.2rem 3rem", }}variant='outlined' color='success' startIcon={<AddIcon />}>
-  Add
-</Button>
-      </form>}
-    </Box>
 
+      <fieldset className={classes.root}>
+        <legend style={{ paddingRight:'5px', fontSize:"14px"}}><PersonIcon sx={{height:"14px"}} />Members</legend>
+          {members && members.map((item:any) =>                
+            <Chip
+              sx={{overflow:"hidden"}}
+              label={item.username}
+              avatar={<AccountCircleIcon />}  
+              onDelete={() => handleDelete(item)}
+              deleteIcon={<IconButton disabled={!editMode}><PersonRemoveIcon/></IconButton>}  
+          />
+          )}
+          {editMode && 
+          <InputBase
+            className={classes.input}
+            placeholder='add member'
+            onChange={(e:any) => setMemberName(e.target.value)}
+            value={memberName} 
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton onClick={handleAdd}>
+                  <AddIcon />
+                </IconButton>
+              </InputAdornment>
+            }/>}
+      </fieldset>
 )}
 
 

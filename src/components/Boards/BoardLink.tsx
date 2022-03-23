@@ -19,16 +19,17 @@ export default function BoardLink({item, key}:any) {
     <ListItem sx={{...classes.listItem}} button key={item.id}>
         <EditIcon onClick={handleOpenModal} sx={{...classes.editIcon}}  /> 
         <Modal
+        sx={{}}
             open={openBoardDetails}
             onClose={handleOpenModal}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
             >
-            <Grid container xs={11} md={6} sx={{ ...classes.modal}}>
+            <Grid container xs={11} md={6} sx={{borderRadius:"15px", ...classes.modal}}>
                 <BoardDetails open={handleOpenModal} item={item} />
             </Grid>
         </Modal>
-        <Link style={{cursor:"search", gap:'1rem', display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column", textDecoration: 'none', color:"black"}} to={`/${item.id}`}>
+        <Link style={{height:"100%", width:"100%", cursor:"search", gap:'1rem', display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column", textDecoration: 'none', color:"black"}} to={`/${item.id}`}>
             <SiTrello />
             <Typography>{item.title}</Typography>
             <AvatarGroup sx={{...classes.smallIcons}} max={3}>

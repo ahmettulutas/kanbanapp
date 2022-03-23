@@ -14,17 +14,20 @@ const useStyles = makeStyles ({
     root:{
         display:'grid', 
         gridTemplateRows:'auto 1fr auto',
-        height:"400px",
         width:"100%",
+        minHeight:"400px",
+  
     },
     header: {
         display:'flex',
         alignItems:'center',
         justifyContent:'center',
         backgroundColor:"#1572A1",
+        borderRadius:"15px 15px 0 0",  
         color:'white',
         position:'relative',
         padding:"0.2rem",
+
     },
     title: {
         fontSize:'20px',
@@ -33,20 +36,18 @@ const useStyles = makeStyles ({
     body: {
         padding:"1rem",
         display:"flex",
+        flexDirection:"column",
     },
     footer: {
         display:'flex',
         alignItems:'center',
         justifyContent:'center',
         backgroundColor:"#1572A1",
+        borderRadius:"0 0 15px 15px", 
         color:"white",
         padding:'0.2rem',
-        cursor:"pointer", 
+        gap:"0.3rem",
         fontWeight:'bold',
-        transition:'0.3s ease-in-out',
-        '&:hover':{
-            color:"#FF2442",
-        }
     }
 })
 // item prop is the individual board object, open prop is the state of the modal
@@ -73,24 +74,14 @@ return (
     <Box className={boardDetails.root}>
         <Box className={boardDetails.header}>
             {editMode ? <EditableTitle update={handleUpdateBoard} title={item.title}/> : <Typography className={boardDetails.title}>{item.title}</Typography>}
-            <CloseIcon onClick={open} sx={{position:"absolute", top:0, right:0, fontSize:"x-large", cursor:"pointer", fill:"white",'&:hover':{fill:"red"}}}/> 
+            <CloseIcon onClick={open} sx={{position:"absolute", right:3, top:7, fontSize:"x-large", cursor:"pointer", fill:"white",'&:hover':{fill:"red"}}}/> 
         </Box>
         <Box>
-        <Box className={boardDetails.body}>
-            <Typography>Created At: {item.createdAt}</Typography>
             <BoardMembers editMode={editMode} id={item.id}/>
         </Box>
+        <Box className={boardDetails.footer} >
+            <Typography>{editMode ? "Delete" : "Display Mode"}</Typography>
+            {editMode ? <DeleteIcon sx={{cursor:"pointer", transition:'0.3s ease-in-out', '&:hover' : {color:"red"}}} onClick={handleDeleteBoard}/> : <VisibilityIcon/>}
         </Box>
-        {editMode ?
-        <Box className={boardDetails.footer} onClick={handleDeleteBoard} >
-            <Typography>Delete This Board</Typography>
-            <DeleteIcon/>
-        </Box>
-        :
-        <Box className={boardDetails.footer} onClick={handleDeleteBoard} >
-            <Typography>Display Only</Typography>
-            <VisibilityIcon/>
-        </Box>
-        }
     </Box>
 )}
