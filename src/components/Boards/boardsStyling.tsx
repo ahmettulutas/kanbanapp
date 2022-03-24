@@ -53,7 +53,8 @@ export const classes = {
       padding:'1rem',
       gap:"1rem",
     },
-    listItem: {
+    listItem: {  
+      overflow: "hidden", 
       backgroundColor:"white",
       border:'2px solid #1572A1',
       position:"relative",

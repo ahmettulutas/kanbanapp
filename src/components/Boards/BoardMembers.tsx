@@ -18,7 +18,8 @@ const useStyles = makeStyles ({
     root:{
       gap:"0.2rem", 
       flexWrap:"wrap", 
-      display:"flex", 
+      display:"flex",
+      alignItems:'center', 
       borderRadius:"20px", 
       margin:"1rem",
       padding:"0.6rem",
@@ -53,8 +54,11 @@ const useStyles = makeStyles ({
     fieldset: {
 
     },
-    input: {
+    form: {
+      display:"flex",
       maxWidth:"20%",
+    },
+    input: {
       fontSize:"14px",
       color: "green",
       border:"1px solid black",
@@ -84,7 +88,8 @@ export default function BoardMembers({id, editMode}:any) {
   const [memberName, setMemberName] = useState("");
   const dispatch = useDispatch<AppDispatch>();
   // this function adds a member to the board. Since the response of addBoardmember doesn't fit with the board slice, I solved it by dispatching another action to update the board slice.
-  const handleAdd = async() => {
+  const handleAdd = async(e:any) => {
+      e.preventDefault();
       axios.post("http://localhost:80/board-member", {boardId:id, username:memberName}, {headers: {'Authorization': `Bearer ${token}`}}).then(res => {
           console.log("adding member to the server", res.data);
       }).catch(err => {
@@ -122,18 +127,21 @@ export default function BoardMembers({id, editMode}:any) {
           />
           )}
           {editMode && 
-          <InputBase
-            className={classes.input}
-            placeholder='add member'
-            onChange={(e:any) => setMemberName(e.target.value)}
-            value={memberName} 
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton onClick={handleAdd}>
-                  <AddIcon />
-                </IconButton>
-              </InputAdornment>
-            }/>}
+          <form className={classes.form} onSubmit={handleAdd}>
+            <InputBase
+              className={classes.input}
+              placeholder='add member'
+              onChange={(e:any) => setMemberName(e.target.value)}
+              value={memberName} 
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton type="submit" onClick={handleAdd}>
+                    <AddIcon />
+                  </IconButton>
+                </InputAdornment>
+              }/>
+          </form>
+}
       </fieldset>
 )}
 

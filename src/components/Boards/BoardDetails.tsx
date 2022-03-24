@@ -97,11 +97,11 @@ return (
                 </legend>
                 {editMode ? 
                 <Box>
-                    <Typography>Created at : {item.createdAt}</Typography>Since you are the owner of this board, you can delete, change name and manage members of it.<Typography></Typography>
+                    <Typography>Created at : {item.createdAt}</Typography>Since you are the owner of this board, you can delete, change name and manage members of it.
                 </Box>                
                 :
                 <Box>
-                    <Typography>Created at : {item.createdAt}</Typography>You are member of this board.Therefore, you can only display the details.<Typography></Typography>
+                    <Typography>Created at : {item.createdAt}</Typography>You are member of this board.Therefore, you can only display the details.
                 </Box>}
             </fieldset>
         </Box>

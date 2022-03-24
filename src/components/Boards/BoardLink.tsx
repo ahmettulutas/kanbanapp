@@ -31,7 +31,7 @@ export default function BoardLink({item, key}:any) {
         </Modal>
         <Link style={{height:"100%", width:"100%", cursor:"search", gap:'1rem', display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column", textDecoration: 'none', color:"black"}} to={`/${item.id}`}>
             <SiTrello />
-            <Typography>{item.title}</Typography>
+            <Typography sx={{fontSize:"70%"}}>{item.title}</Typography>
             <AvatarGroup sx={{...classes.smallIcons}} max={3}>
                 {members && item.members.map((item:any) => <Avatar sx={{backgroundColor:`${getRandomColor()}`,...classes.avatarIcon}} key={item.id} alt='user1' >{item.username[0]}</Avatar>)}
             </AvatarGroup>
