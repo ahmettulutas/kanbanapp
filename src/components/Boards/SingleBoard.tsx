@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { makeStyles } from '@mui/styles';
-import ResponsiveAppBar from '../ResponsiveAppBar';
 import ListComponent from '../List/ListComponent';
 import { Box } from '@mui/system';
-import AddNewList from '../List/AddNewList';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store';
-import { addList , selectList} from '../List/ListSlice';
+import { /* addList */  selectList, getLists} from '../List/ListSlice';
 import AddItem from '../AddItem';
 import { useParams } from 'react-router-dom';
-import EditableTitle from '../EditableTitle';
-
+import { Typography } from '@mui/material';
+import {createList} from '../List/ListSlice';
 const useStyles = makeStyles ({
   root: {
       display:"flex",
@@ -28,25 +26,26 @@ const useStyles = makeStyles ({
   }
 })
 export default function SingleBoard() {
-  const {id} = useParams();
-  const list2 = useSelector(selectList);
+  const {boardId} = useParams(); // get boardId from url. Be careful boardId returns string.
+  const lists = useSelector(selectList);
   const classes = useStyles();
   const dispatch = useDispatch<AppDispatch>();
-  const addNewList = (title:string) => {
-    const newList = {title:title, id:new Date().getTime()};
-    dispatch(addList(newList));
-  }
+  const handleAddNewList = (title:string) => {
+    // convert the boardId to Number type and create args for the api call.
+    const args = {boardId:Number(boardId), title:title};
+    dispatch(createList(args));
+}
   useEffect(()=> {
-    console.log("param is", id);
-  })
+      dispatch(getLists(boardId))
+  },[dispatch])
   return (
     <div className={classes.root}>
-        <EditableTitle title={"title"}/>
-        <Box className={classes.lists}>
-          {list2 && list2.map((list:any) => (<ListComponent key={list.id} list={list}/>))} 
-          <Box sx={{height:"fit-content"}}>
-            <AddItem add={addNewList} />
-          </Box>
+      <Typography sx={{margin:"1rem auto", fontWeight:"bold"}}>title</Typography>
+      <Box className={classes.lists}>
+        {lists && lists.map((item:any) => <ListComponent item={item}/> )}       
+        <Box sx={{height:"fit-content"}}>
+          <AddItem display={true} add={handleAddNewList} />
+        </Box>
       </Box>
     </div>
 )}

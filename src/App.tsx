@@ -17,7 +17,7 @@ function App() {
       <section>
         <Routes>
           {loginBool ? <Route path="/" element={<Boards />} /> : <Route path="/" element={<Auth />} />}
-          <Route path="/:id" element={<SingleBoard />} />
+          <Route path="/:boardId" element={<SingleBoard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="*" element={<Navigate to="/" />} />

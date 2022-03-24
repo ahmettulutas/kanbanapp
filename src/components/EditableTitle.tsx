@@ -11,14 +11,14 @@ titleContainer: {
     alignItems:"center",
 },
 title: {
-    fontSize:"23px",
+    fontSize:"18px",
     fontWeight:"bold",
     margin:"0px auto",
 },
 input: {
     position:"relative",
     border:"1px solid inherit",
-    fontSize:"23px",
+    fontSize:"18px",
     fontWeight:"bold",
     color:"inherit",
     textAlign:"center",
@@ -71,7 +71,7 @@ export default function EditableTitle({title, update}:any) {
         <Box className={classes.titleContainer}>
         { open ?
             <form className={classes.form} onSubmit={handleEdit}> 
-                <input onChange={(e:any) => setEditedTitle({title:e.target.value})} autoFocus className={classes.input} type="text" value={editedTitle.title} ></input> 
+                <input onChange={(e:any) => setEditedTitle({title:e.target.value})} autoFocus className={classes.input} type="text" value={editedTitle.title}></input> 
                 <CloseIcon className={classes.closeIcon} onClick={() => setOpen(false)}/>
                 <CheckIcon className={classes.checkIcon} onClick={handleEdit}/>
             </form>

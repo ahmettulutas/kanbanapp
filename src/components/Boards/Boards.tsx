@@ -36,7 +36,7 @@ export default function Boards() {
         aria-describedby="modal-modal-description"
       >
       <Grid container xs={11} md={6} sx={{...classes.modal}}>
-        <AddItem add={addNewBoard}/>
+        <AddItem display={true} add={addNewBoard}/>
       </Grid>
       </Modal>
     </Box>

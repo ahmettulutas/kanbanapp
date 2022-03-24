@@ -12,7 +12,7 @@ let token = getCookie('token');
 
 // async thunks
 export const getBoards = createAsyncThunk(
-    'boards/getBoards',
+    'boardSlice/getBoards',
     async (_, {rejectWithValue}) => {
         // no args passed to this thunk and we destructure the rejectWithValue. 
         try {
@@ -30,7 +30,7 @@ export const getBoards = createAsyncThunk(
         }
 })
 export const createBoard = createAsyncThunk(
-    'boards/createBoard',
+    'boardSlice/createBoard',
     async(arg:any, {rejectWithValue}) => {
         try {
             let token = getCookie('token');
@@ -47,13 +47,13 @@ export const createBoard = createAsyncThunk(
         }
 })
 export const deleteBoard = createAsyncThunk(
-    'boards/deleteBoard',
+    'boardSlice/deleteBoard',
     async(arg:any, {rejectWithValue}) => {
         try {
             const response = await axios.delete(`http://localhost:80/board/${arg}`, {headers: {'Authorization': `Bearer ${token}`}});
             console.log("deleting board from the server", response.data);
             if (response.status === 200) {
-                return arg; // Here we return the id of the board that was deleted to filter it from the redux state because api response returns deleted string only.
+                return arg; // Here we return the id of the board that was deleted to filter it from the redux store because api response returns "deleted" string only.
             }
             else {
                 return rejectWithValue(response);
@@ -63,7 +63,7 @@ export const deleteBoard = createAsyncThunk(
         }
 })
 export const updateBoard = createAsyncThunk(
-    'boards/updateBoard',
+    'boardSlice/updateBoard',
     async(arg:any, {rejectWithValue}) => {
         const {id, title} = arg;
         try {
@@ -82,7 +82,7 @@ export const updateBoard = createAsyncThunk(
 const boardSlice = createSlice({
     name:"boardSlice",
     initialState: {
-        boards: [/* {title:"newlist", id:1} */],
+        boards: [],
         isloading: false,
         error: false,
     },

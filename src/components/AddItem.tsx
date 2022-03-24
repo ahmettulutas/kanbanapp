@@ -46,9 +46,9 @@ const useStyles = makeStyles ({
 })
 
 
-export default function AddItem({show, add}:any) {
+export default function AddItem({display, add}:any) {
   const [title, setTitle] = useState<string>('');
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(display);
   const classes = useStyles();
   const handleSubmit = (e:any) => {
     e.preventDefault();
@@ -56,16 +56,17 @@ export default function AddItem({show, add}:any) {
     setTitle("");
   }
     return (
-      <Box onBlur={()=>setOpen(false)}  className={classes.root}>
-{/*         { open ?  */}
+      <Box onBlur={()=> setOpen(false)}  className={classes.root}>
+        { open ?
           <form onSubmit={handleSubmit} className={classes.form}>
             <input value={title} onChange={(e:any) => setTitle(e.target.value)} className={classes.textfield} autoFocus placeholder="type a name..." type="text" ></input>
             <button onClick={handleSubmit} className={classes.submitbutton} type="submit">Add</button>
-          </form> {/* : 
+          </form> 
+          : 
           <Box sx={{p:2, display:"flex", justifyContent:"flex-start ", width:"100%"}}>
             <Typography>Add...</Typography>
             <AddCircleOutlineRoundedIcon onClick={() => setOpen(true)}>Add a card...</AddCircleOutlineRoundedIcon>
           </Box>
-        } */}
+        } 
       </Box>
 )}

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box } from '@mui/material';
+import { Avatar, Box, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import Card from '../Card/Card';
 import AddItem from '../AddItem';
@@ -7,7 +7,8 @@ import EditableTitle from '../EditableTitle';
 import { AppDispatch } from '../../store';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCard, selectCards } from '../Card/CardSlice';
-
+import ListDetails from './ListDetails';
+import { updateList } from './ListSlice';
 const colorsPicker = [
   '#f1c96f',
   '#f76e6e',
@@ -34,26 +35,31 @@ const useStyles = makeStyles ({
       gap:"0.5rem",
       height:"fit-content", 
       minHeight:"80vh",
+      position:"relative",
   }
 })
-export default function ListComponent({list}:any) {
+export default function ListComponent({item}:any) {
   const cards = useSelector(selectCards);
   useEffect(() => {
-    console.log(cards);
   }, [cards])
   const dispatch = useDispatch<AppDispatch>();
+  const handleUpdateList = (title:any) => {
+    dispatch(updateList({id:item.id, title}));
+  }
+
   const addNewCard = (title:string) => {
-    const newCard = {title:title, listId:list.id, id:new Date().getTime(), color:colorsPicker[Math.floor(Math.random() * colorsPicker.length)]};
+    const newCard = {title:title, listId:item.id, id:new Date().getTime(), color:colorsPicker[Math.floor(Math.random() * colorsPicker.length)]};
     dispatch(addCard(newCard));
   } 
   const classes = useStyles();
     return (
-      <Box className={classes.root}>
-        <Box sx={{display:"flex", justifyContent:"space-between" , alignItems:"center", pr:2}}>
-          <EditableTitle title={list.title}/>
+      <Box className={classes.root}>    
+        <ListDetails listId={item.id}/>
+        <Box sx={{display:"flex", justifyContent:"center" , alignItems:"center", pr:2}}>
+          <EditableTitle update={handleUpdateList} title={item.title}/>
         </Box>
         {cards && cards.map((card:any) => <Card key={card.id} card={card}/>)}
-        <AddItem add={addNewCard} />
+        <AddItem display={true} add={addNewCard} />
       </Box>
 )}
 
