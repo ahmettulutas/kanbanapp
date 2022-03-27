@@ -6,10 +6,11 @@ import AddItem from '../AddItem';
 import EditableTitle from '../EditableTitle';
 import { AppDispatch } from '../../store';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCard, selectCards } from '../Card/CardSlice';
+import { getCards, selectCards, createCard } from '../Card/CardSlice';
 import ListDetails from './ListDetails';
 import { updateList } from './ListSlice';
-const colorsPicker = [
+import {  Droppable } from 'react-beautiful-dnd';
+const colorsPicker = [  
   '#f1c96f',
   '#f76e6e',
   '#8086ca',
@@ -38,28 +39,38 @@ const useStyles = makeStyles ({
       position:"relative",
   }
 })
-export default function ListComponent({item}:any) {
+export default function ListComponent({list}:any) {
+  const {id} = list;
+  const classes = useStyles();
+  const dispatch = useDispatch<AppDispatch>();
   const cards = useSelector(selectCards);
   useEffect(() => {
-  }, [cards])
-  const dispatch = useDispatch<AppDispatch>();
+  dispatch(getCards(id));
+   console.log("listId",id)
+  }, [dispatch])
+
   const handleUpdateList = (title:any) => {
-    dispatch(updateList({id:item.id, title}));
+    dispatch(updateList({id:id, title}));
+  }
+  const handleAddNewCard = (title:any) => {
+    const args = {listId:id, title, order:cards.length+1};
+    dispatch(createCard(args));
+
   }
 
-  const addNewCard = (title:string) => {
-    const newCard = {title:title, listId:item.id, id:new Date().getTime(), color:colorsPicker[Math.floor(Math.random() * colorsPicker.length)]};
-    dispatch(addCard(newCard));
-  } 
-  const classes = useStyles();
     return (
-      <Box className={classes.root}>    
-        <ListDetails listId={item.id}/>
-        <Box sx={{display:"flex", justifyContent:"center" , alignItems:"center", pr:2}}>
-          <EditableTitle update={handleUpdateList} title={item.title}/>
+      <Droppable droppableId={String(list.id)}>
+        {(provided:any)=> (
+          <Box className={classes.root} {...provided.droppableProps} ref={provided.innerRef}>    
+            <ListDetails listId={id}/>
+            <Box sx={{display:"flex", justifyContent:"center" , alignItems:"center", pr:2}}>
+              <EditableTitle update={handleUpdateList} title={list.title}/>
+            </Box>
+            {list && list.cards.map((card:any, index:any) => <Card index={index} id={card.id} key={card.id} card={card}/>)}
+            <AddItem display={true} add={handleAddNewCard} />
+            {provided.placeholder}
         </Box>
-        {cards && cards.map((card:any) => <Card key={card.id} card={card}/>)}
-        <AddItem display={true} add={addNewCard} />
-      </Box>
+        )}
+      </Droppable>
 )}
 

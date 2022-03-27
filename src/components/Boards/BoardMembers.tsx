@@ -141,7 +141,7 @@ export default function BoardMembers({id, editMode}:any) {
                 </InputAdornment>
               }/>
           </form>
-}
+          }
       </fieldset>
 )}
 

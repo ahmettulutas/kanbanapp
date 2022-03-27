@@ -118,7 +118,7 @@ const boardSlice = createSlice({
         },
         [updateBoard.fulfilled.toString()]: (state:any, action:any) => {
             const {title, id} = action.payload;
-            state.boards = state.boards.map((board:any) => board.id === id ? {...board, title:title}: board);
+            state.boards = state.boards.map((board:any) => board.id === id ? {...board, title:title} : board);
         },
         [updateBoard.pending.toString()]: (state:any) => {
             state.isloading = true;
