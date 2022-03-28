@@ -12,6 +12,7 @@ let token = getCookie('token');
 export const getLists = createAsyncThunk(
     'listSlice/getLists',
     async (arg:any, {rejectWithValue}) => {
+        let token = await getCookie('token'); 
         // arg is the board id.
         try {
             const response = await axios.get(`http://localhost:80/list?boardId=${arg}`, {headers: {'Authorization': `Bearer ${token}`}});
@@ -87,13 +88,29 @@ const listSlice = createSlice({
         error: false,
     },
     reducers: {
+        updateListWithDnd: (state:any, action:any) => {
+            const {sourceId, destinationId, sourceCards, destinationCards } = action.payload;
+            const list = state.list.map((item:any, itemIndex:any) => {
+                if (item.id === sourceId) {
+                    return {...item, cards:sourceCards};
+                }
+                if (destinationId && item.id === destinationId) {
+                    return {...item, cards:destinationCards};
+                }
+                return item;
+            });
+            state.list = list;
+        }
     },
     extraReducers: {
         [getLists.pending.toString()]: (state:any, action:any) => {
             state.loading = true;
         },
         [getLists.fulfilled.toString()]: (state:any, action:any) => {
-            state.list = action.payload;
+            const sortedList = action.payload.map((item:any) => {
+                return {...item, cards: item.cards.sort((a:any, b:any) => a.order - b.order)};
+            })
+            state.list = sortedList;
             state.loading = false;
         },
         [getLists.rejected.toString()] : (state:any, action:any) => {
@@ -137,4 +154,5 @@ const listSlice = createSlice({
     }
 })
 export default listSlice.reducer;
+export const {updateListWithDnd} = listSlice.actions;
 export const selectList = (state:any) => state.listSlice.list;

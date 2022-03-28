@@ -10,7 +10,7 @@ import { Draggable } from 'react-beautiful-dnd';
 const useStyles = makeStyles ({
     root: {
         backgroundColor:"white",
-        borderRadius:"19px",
+        borderRadius:"8px",
         margin:"0.1rem 1rem",
         cursor:"grab",
         position:"relative",

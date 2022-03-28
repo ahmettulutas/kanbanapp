@@ -8,7 +8,7 @@ import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRou
 const useStyles = makeStyles ({
   root: {
       backgroundColor:"#f5f5f5",
-      margin:"0.3rem 1rem",
+      margin:"0.1rem 1rem",
       cursor:"pointer",
       display:"flex",
       alignItems:"center",
@@ -63,7 +63,7 @@ export default function AddItem({display, add}:any) {
             <button onClick={handleSubmit} className={classes.submitbutton} type="submit">Add</button>
           </form> 
           : 
-          <Box sx={{p:2, display:"flex", justifyContent:"flex-start ", width:"100%"}}>
+          <Box sx={{display:"flex", justifyContent:"flex-start", width:"100%"}}>
             <Typography>Add...</Typography>
             <AddCircleOutlineRoundedIcon onClick={() => setOpen(true)}>Add a card...</AddCircleOutlineRoundedIcon>
           </Box>

@@ -55,6 +55,22 @@ export const deleteCard = createAsyncThunk (
             return rejectWithValue(err);
         }
 })
+export const updateCard = createAsyncThunk (
+    "cardSlice/updateCard",
+    async (arg:any, {rejectWithValue}) => {
+        try {
+            const response = await axios.put(`http://localhost:80/card/${arg.id}`, arg, {headers: {'Authorization': `Bearer ${token}`}});
+            console.log("updating card in the server", response.data);
+            if (response.status === 200) {
+                return response.data;
+            }
+            else {
+                return rejectWithValue(response);
+                }
+        } catch(err) {
+            return rejectWithValue(err);
+        }
+})
 
 const cardSlice = createSlice({
     name:"cardSlice",
@@ -98,7 +114,23 @@ const cardSlice = createSlice({
         [deleteCard.rejected.toString()]: (state, action) => {
             state.error = true;
             state.loading = false;
-        },        
+        },
+        [updateCard.pending.toString()]: (state:any, action:any) => {
+            state.loading = true;
+        },
+        [updateCard.fulfilled.toString()]: (state:any, action:any) => {
+            state.cards = state.cards.map((card:any) => {
+                if (card.id === action.payload.id) {
+                    return action.payload;
+                }
+                return card;
+            });
+            state.loading = false;
+        },
+        [updateCard.rejected.toString()]: (state, action) => {
+            state.error = true;
+            state.loading = false;
+        }     
     },
 
 })
