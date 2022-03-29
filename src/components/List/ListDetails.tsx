@@ -21,7 +21,7 @@ export default function ListDetails({listId}:any) {
     }
     return (
     <div>        
-        <Tooltip title="Account settings">
+        <Tooltip title="List Details">
             <IconButton
                 onClick={handleClick}
                 size="small"

@@ -48,9 +48,9 @@ export const createList = createAsyncThunk(
 export const updateList = createAsyncThunk(
     "listSlice/updateList",
     async (arg:any, {rejectWithValue}) => {
-        const {id, title} = arg;
+        const {id} = arg;
         try {
-            const response = await axios.put(`http://localhost:80/list/${id}`, {title:title}, {headers: {'Authorization': `Bearer ${token}`}});
+            const response = await axios.put(`http://localhost:80/list/${id}`, arg, {headers: {'Authorization': `Bearer ${token}`}});
             console.log("updating list on the server", response.data);
             if (response.status === 200) {
                 return response.data;
@@ -109,10 +109,12 @@ const listSlice = createSlice({
             state.loading = true;
         },
         [getLists.fulfilled.toString()]: (state:any, action:any) => {
-            const sortedList = action.payload.map((item:any) => {
-                return {...item, cards: item.cards.sort((a:any, b:any) => a.order - b.order)};
+            const sortfnc = ((a:any, b:any) => a.order - b.order);
+            const sortedList = action.payload.sort(((a:any, b:any) => sortfnc(a, b)))
+            const sortedCardsList = sortedList.map((item:any) => {
+                return {...item, cards: item.cards.sort((a:any, b:any) => sortfnc(a, b))};
             })
-            state.list = sortedList;
+            state.list = sortedCardsList;
             state.loading = false;
         },
         [getLists.rejected.toString()] : (state:any, action:any) => {

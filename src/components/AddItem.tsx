@@ -6,7 +6,7 @@ import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRou
 
 const useStyles = makeStyles ({
   root: {
-      backgroundColor:"#f5f5f5",
+      backgroundColor:"EBECF0",
       margin:"0.1rem 1rem",
       cursor:"pointer",
       display:"flex",
@@ -65,7 +65,7 @@ export default function AddItem({display, add}:any) {
             <button onMouseDown={handleSubmit} className={classes.submitbutton} type="submit">Add</button>
           </form> 
           : 
-          <Box onClick={() => setOpen(true)} sx={{width:"auto", display:"flex", gap:"1rem", justifyContent:"flex-start"}}>
+          <Box onClick={() => setOpen(true)} sx={{ width:"auto", display:"flex", gap:"1rem", justifyContent:"flex-start"}}>
             <Typography>Add</Typography>
             <AddCircleOutlineRoundedIcon></AddCircleOutlineRoundedIcon>
           </Box>

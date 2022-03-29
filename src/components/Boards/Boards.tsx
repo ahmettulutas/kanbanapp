@@ -10,7 +10,7 @@ import {selectUserId} from '../../auth/AuthSlice';
 import AddItem from '../AddItem';
 import BoardLink from './BoardLink';
 import {SiAddthis} from 'react-icons/si';
-
+import illustration from '../../assets/boardillustration.jpg';
 
 export default function Boards() {
   const dispatch = useDispatch<AppDispatch>();
@@ -37,10 +37,11 @@ export default function Boards() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-      <Grid container xs={11} md={6} sx={{...classes.modal}}>
+      <Grid container xs={11} md={6} sx={{zIndex:1, ...classes.modal}}>
         <AddItem display={true} add={addNewBoard}/>
       </Grid>
       </Modal>
+      <img style={{zIndex:'2', position:"absolute", bottom:0, right:0, width:"auto", height:"450px"}} alt="kanban" src={illustration}/>
     </Box>
 )}
  

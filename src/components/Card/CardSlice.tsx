@@ -111,7 +111,7 @@ const cardSlice = createSlice({
         },
         [deleteCard.fulfilled.toString()]: (state:any, action:any) => {
             const {id,listId} = action.payload;
-            state.cards = state.cards[listId].filter((card:any) => card.id === id);
+            state.cards = {...state.cards, [listId]:state.cards[listId].filter((card:any) => card.id === id)};
             state.loading = false;
         },
         [deleteCard.rejected.toString()]: (state, action) => {

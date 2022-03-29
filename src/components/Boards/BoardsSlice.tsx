@@ -108,6 +108,9 @@ const boardSlice = createSlice({
         singleBoard: {},
     },
     reducers: {
+        updateSingleBoardWithDnd: (state:any, action:any) => {
+            state.singleBoard.lists = action.payload;
+        }
     },
     extraReducers:{
         [getAllBoards.fulfilled.toString()]: (state:any, action:any) => {
@@ -159,4 +162,6 @@ const boardSlice = createSlice({
     }
 })
 export default boardSlice.reducer;
+export const {updateSingleBoardWithDnd} = boardSlice.actions;
 export const selectBoards = (state:any) => state.boardSlice;
+export const selectSingleBoard = (state:any) => state.boardSlice.singleBoard;

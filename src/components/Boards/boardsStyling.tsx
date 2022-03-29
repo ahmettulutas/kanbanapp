@@ -26,7 +26,6 @@ export const classes = {
       display:"flex",
       justifyContent:"center",
       height:"100%",
-      backgroundColor:"lightgreen",
     },
     form: {
       display:"grid",
@@ -67,7 +66,7 @@ export const classes = {
       transition:"0.2s ease-in",
       '&:hover':{
         boxShadow:'0px 0px 5px #1572A1',
-        backgroundColor:"lightgray",
+        backgroundColor:"#EBECF0",
       },
      '& svg': {
         fontSize:"40px",

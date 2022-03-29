@@ -9,30 +9,30 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCards, selectCards, createCard } from '../Card/CardSlice';
 import ListDetails from './ListDetails';
 import { updateList } from './ListSlice';
-import {  Droppable } from 'react-beautiful-dnd';
-import { getRandomColor } from '../Card/cardsStyling';
+import { Draggable, Droppable } from 'react-beautiful-dnd';
+
 const useStyles = makeStyles ({
   root: {
-      backgroundColor:"#f5f5f5",
+      backgroundColor:"#EBECF0",
       borderRadius:"5px",
       display:"flex",
       flexDirection:"column",
       gap:"0.5rem",
       height:"fit-content", 
       position:"relative",
+      padding:"0 0 1rem 0",
   }
 })
-export default function ListComponent({list}:any) {
-  const {id} = list;
+export default function ListComponent({list, index}:any) {
   const classes = useStyles();
   const dispatch = useDispatch<AppDispatch>();
 /*   const cards = useSelector(selectCards); */
   useEffect(() => {
-    dispatch(getCards(id));
+    dispatch(getCards(list.id));
   }, [dispatch])
 
   const handleUpdateList = (title:any) => {
-    dispatch(updateList({id:id, title}));
+    dispatch(updateList({id:list.id, title}));
   }
   const handleAddNewCard = (title:any) => {
     // maxOrder gets the last cards order value.
@@ -43,25 +43,32 @@ export default function ListComponent({list}:any) {
       maxOrder = list.cards[list.cards.length-1].order ;
     }
     // and multiply it by 2 to make the new card added to the end of the list no matter how much is the last item's order.
-    const args = {listId:id, title, order:2 * maxOrder};   
+    const args = {listId:list.id, title, order:2 * maxOrder};   
     dispatch(createCard(args));  
   }
    return (
-      <Droppable droppableId={String(list.id)}>
+     <Draggable draggableId={String(list.id)} key={list.id} index={index}>
+       {(provided:any) => (
+         <div {...provided.draggableProps} ref={provided.innerRef} {...provided.dragHandleProps}>
+        <Droppable droppableId={String(list.id)}>
         {(provided:any)=> (
-          <div {...provided.droppableProps} ref={provided.innerRef}>
-            <Box className={classes.root}>    
-              <ListDetails listId={id}/>
-              <Box sx={{display:"flex", justifyContent:"center", alignItems:"center", pr:2}}>
-                <EditableTitle update={handleUpdateList} title={list.title}/>
+            <div {...provided.droppableProps} ref={provided.innerRef}>
+              <Box className={classes.root}>    
+                <ListDetails listId={list.id}/>
+                <Box sx={{display:"flex", justifyContent:"center", alignItems:"center", pr:2}}>
+                  <EditableTitle update={handleUpdateList} title={list.title}/>
+                </Box>
+                {list && list.cards.map((card:any, index:any) => <Card index={index} id={card.id} key={card.id} card={card}/>)}
+                  <AddItem display={false} add={handleAddNewCard}/>
+                  {provided.placeholder}
               </Box>
-              {list && list.cards.map((card:any, index:any) => <Card color={getRandomColor()} index={index} id={card.id} key={card.id} card={card}/>)}
-                <AddItem display={true} add={handleAddNewCard}/>
-                {provided.placeholder}
-            </Box>
-          </div>
-         
+            </div>         
         )}
       </Droppable>
+      {provided.placeholder}
+      </div>
+       )}
+     </Draggable>
+      
 )}
 

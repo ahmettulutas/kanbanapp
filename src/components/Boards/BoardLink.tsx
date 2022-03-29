@@ -7,7 +7,7 @@ import BoardDetails from './BoardDetails';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-export default function BoardLink({item, key}:any) {
+export default function BoardLink({item }:any) {
     // selector to get board members
     const members = useSelector((state:any) => state.boardSlice.boards.find((board:any) => board.id === item.id)?.members)
     // function to control boarddetails modal
@@ -30,7 +30,7 @@ export default function BoardLink({item, key}:any) {
         </Modal>
         <Link style={{height:"100%", width:"100%", cursor:"search", gap:'1rem', display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column", textDecoration: 'none', color:"black"}} to={`/${item.id}`}>
             <SiTrello />
-            <Typography sx={{fontSize:"70%"}}>{item.title}</Typography>
+            <Typography>{item.title}</Typography>
             <AvatarGroup sx={{...classes.smallIcons}} max={3}>
                 {members && item.members.map((item:any) => <Avatar sx={{backgroundColor:`${getRandomColor()}`,...classes.avatarIcon}} key={item.id} alt='user1' >{item.username[0]}</Avatar>)}
             </AvatarGroup>
