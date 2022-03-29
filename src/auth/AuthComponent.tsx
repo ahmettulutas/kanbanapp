@@ -1,4 +1,4 @@
-import Register from './Register';
+/* import Register from './Register';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
@@ -21,8 +21,8 @@ export default function Auth() {
   return (
     loading ?   <LoadingComponent />  :  
       <TabContext value={value}>
-        <Box sx={{display:"flex", flexDirection:"column", minHeight:"100vh", alignItems:"center",  border:'2px solid black'}}>
-          <Box sx={{width:"100%", display:"flex", justifyContent:"center", border:'2px solid black', borderColor: 'divider' }}>
+        <Box sx={{display:"flex", flexDirection:"column", minHeight:"100vh", alignItems:"center"}}>
+          <Box sx={{width:"100%", display:"flex", justifyContent:"center", borderColor: 'divider' }}>
             <TabList onChange={handleChange} aria-label="lab API tabs example">
               <Tab label="Login" value="1" />
               <Tab label="Register" value="2" />
@@ -36,3 +36,5 @@ export default function Auth() {
       </TabContext>
   
 )}
+ */
+export const ahmet = 0;

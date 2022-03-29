@@ -16,7 +16,7 @@ export default function ListDetails({listId}:any) {
         setAnchorEl(null);
     };
     const handleDeleteList = () => {
-    // delete list api call only requires list id
+    // delete list api call only requires list id;
         dispatch(deleteList(listId));
     }
     return (
@@ -42,21 +42,22 @@ export default function ListDetails({listId}:any) {
         PaperProps={{
             elevation: 0,
             sx: {
+            padding:0,
             overflow: 'visible',
             filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-            mt: 1.5,
+            mt: 0,
             '& .MuiAvatar-root': {
                 width: 32,
                 height: 32,
                 ml: -0.5,
-                mr: 1,
+                mr: 0,
             },
             '&:before': {
                 content: '""',
                 display: 'block',
                 position: 'absolute',
                 top: 0,
-                right: 14,
+                right: 10,
                 width: 10,
                 height: 10,
                 bgcolor: 'background.paper',
@@ -69,7 +70,7 @@ export default function ListDetails({listId}:any) {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
             <MenuItem onClick={handleDeleteList}>
-            <IconButton >
+            <IconButton>
                 <CgDanger style={{color:'red'}}/>
             </IconButton>
                 Delete

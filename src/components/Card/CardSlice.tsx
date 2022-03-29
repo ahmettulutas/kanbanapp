@@ -42,11 +42,12 @@ export const createCard = createAsyncThunk (
 export const deleteCard = createAsyncThunk (
     "cardSlice/deleteCard",
     async (arg:any, {rejectWithValue}) => {
+        const {id, listId} = arg;
         try {
-            const response = await axios.delete(`http://localhost:80/card/${arg}`, {headers: {'Authorization': `Bearer ${token}`}});
+            const response = await axios.delete(`http://localhost:80/card/${id}`, {headers: {'Authorization': `Bearer ${token}`}});
             console.log("deleting card from the server", response.data);
             if (response.status === 200) {
-                return arg; // Here we return the id of the card that was deleted to filter it from the redux store because api response returns "deleted" string only.
+                return {id,listId}; // Here we return the id of the list that was deleted to filter it from the redux store because api response returns "deleted" string only.
             }
             else {
                 return rejectWithValue(response);
@@ -75,7 +76,7 @@ export const updateCard = createAsyncThunk (
 const cardSlice = createSlice({
     name:"cardSlice",
     initialState:{
-        cards:[],
+        cards:{},
         error:false,
         loading:false,
     },
@@ -86,7 +87,7 @@ const cardSlice = createSlice({
             state.loading = true;
         },
         [getCards.fulfilled.toString()]: (state:any, action:any) => {
-            state.cards = action.payload; // I push all cards to the state and filter it in the list component.
+            state.cards = {...state.cards, [action.payload[0].listId]: action.payload};
             state.loading = false;
         },
         [getCards.rejected.toString()]: (state:any, action:any) => {
@@ -97,7 +98,8 @@ const cardSlice = createSlice({
             state.loading = true;
         },
         [createCard.fulfilled.toString()]: (state:any, action:any) => {
-            state.cards.push(action.payload);
+            const {listId} = action.payload;
+            state.cards = {...state.cards, [listId]: [...state.cards[listId], action.payload]};
             state.loading = false;
         },
         [createCard.rejected.toString()]: (state, action) => {
@@ -108,7 +110,8 @@ const cardSlice = createSlice({
             state.loading = true;
         },
         [deleteCard.fulfilled.toString()]: (state:any, action:any) => {
-            state.cards = state.cards.filter((card:any) => card.id !== action.payload);
+            const {id,listId} = action.payload;
+            state.cards = state.cards[listId].filter((card:any) => card.id === id);
             state.loading = false;
         },
         [deleteCard.rejected.toString()]: (state, action) => {
@@ -119,20 +122,20 @@ const cardSlice = createSlice({
             state.loading = true;
         },
         [updateCard.fulfilled.toString()]: (state:any, action:any) => {
-            state.cards = state.cards.map((card:any) => {
-                if (card.id === action.payload.id) {
+            const {id,listId} = action.payload;
+            state.cards = {...state.cards, [listId]: state.cards[listId].map((card:any) => {
+                if (card.id === id) {
                     return action.payload;
                 }
                 return card;
-            });
+            })};
             state.loading = false;
-        },
+        }, 
         [updateCard.rejected.toString()]: (state, action) => {
             state.error = true;
             state.loading = false;
         }     
     },
-
 })
 export default cardSlice.reducer;
 export const selectCards = (state:RootState) => state.cardSlice.cards;

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TextField, Typography } from '@mui/material';
+import { Grid, TextField, Typography } from '@mui/material';
 import { Button } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { login } from './AuthSlice';
@@ -20,13 +20,14 @@ export default function Login() {
     setForm({username: '', password: ''});
   }
   return (
-    <form onSubmit={handleSubmit} style={{ minHeight:"300px", display:"flex", margin:"0.5rem auto", width:"100%",flexDirection:"column", gap:"0.3rem"}}>
-      <Typography sx={{margin:"0rem auto", fontWeight:"bold"}}>Login</Typography>
-      <TextField name="username" value={form.username} onChange={handleChange} id="filled-basic" label="name" variant="outlined" />
-      <TextField name="password" value={form.password} onChange={handleChange} type="password" id="filled-basic" label="password" variant="outlined" />
-      <Button type="submit" sx={{p:2}} variant="contained" color="success">Login</Button>
-    </form>
-  )
-}
+    <Grid sx={{m:"5rem auto"}} container xs={11} md={6}>
+      <form onSubmit={handleSubmit} style={{ padding:"1rem", border:'2px solid black', margin:"1rem auto", minHeight:"300px", textAlign:"center", display:"flex", flexDirection:"column", gap:"0.2rem"}}>
+        <Typography sx={{margin:"0rem auto", fontWeight:"bold"}}>Login</Typography>
+        <TextField name="username" value={form.username} onChange={handleChange} id="filled-basic" label="name" variant="outlined" />
+        <TextField name="password" value={form.password} onChange={handleChange} type="password" id="filled-basic" label="password" variant="outlined" />
+        <Button type="submit" sx={{p:2}} variant="contained" color="success">Login</Button>
+      </form>
+    </Grid>
+)}
 
 

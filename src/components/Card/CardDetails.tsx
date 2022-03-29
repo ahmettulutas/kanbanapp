@@ -5,18 +5,17 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditableTitle from '../EditableTitle';
 import { makeStyles } from '@mui/styles';
-import {deleteBoard, updateBoard} from "./BoardsSlice";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store';
-import BoardMembers from './BoardMembers';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
-import {selectUserId} from '../../auth/AuthSlice';  // we need userId to toggle edit board mode. 
+import {deleteCard } from './CardSlice';
 const useStyles = makeStyles ({
     root:{
         display:'grid', 
         gridTemplateRows:'auto 1fr auto',
         width:"100%",
         minHeight:"400px",
+  
     },
     header: {
         display:'flex',
@@ -27,6 +26,7 @@ const useStyles = makeStyles ({
         color:'white',
         position:'relative',
         padding:"0.2rem",
+
     },
     title: {
         fontSize:'20px',
@@ -43,7 +43,8 @@ const useStyles = makeStyles ({
         display:"flex", 
         borderRadius:"20px", 
         margin:"1rem",
-        padding:"0.6rem", 
+        padding:"0.6rem",
+    
     },
     footer: {
         display:'flex',
@@ -58,53 +59,40 @@ const useStyles = makeStyles ({
     }
 })
 
-export default function BoardDetails({item, open}:any) {
-// item prop is the individual board object, open prop is the state of the modal
-const userId = useSelector(selectUserId);
-useEffect(() => {
-    // checks if the user is the actual owner of the board so that he/she can edit the board
-    if(userId === item.ownerId) {
-        setEditMode(true);
-    }
-    console.log("editmode", item.ownerId, userId)
-}, [])
-const [editMode, setEditMode] = useState(false);
-const dispatch = useDispatch<AppDispatch>();
-const boardDetails = useStyles();
-const handleDeleteBoard = () => {
-    dispatch(deleteBoard(item.id));
-    open();
-}
-const handleUpdateBoard = (title:any) => {
-    dispatch(updateBoard({id:item.id, title}));
-}
 
-return (
-    <Box className={boardDetails.root}>
-        <Box className={boardDetails.header}>
-            {editMode ? <EditableTitle update={handleUpdateBoard} title={item.title}/> : <Typography className={boardDetails.title}>{item.title}</Typography>}
+export default function CardDetails({card, open}:any) {
+    const dispatch = useDispatch<AppDispatch>();
+    const editMode = true;
+    const cardDetails = useStyles();
+    const handleDeleteCard = () => {
+        dispatch(deleteCard({id:card.id, listId:card.listId}));
+    }
+  return (
+    <Box className={cardDetails.root}>
+        <Box className={cardDetails.header}>
+            {editMode ? <EditableTitle /* update={handleUpdateBoard} */ title={card.title}/> : <Typography className={cardDetails.title}>{card.title}</Typography>}
             <CloseIcon onClick={open} sx={{position:"absolute", right:3, top:7, fontSize:"x-large", cursor:"pointer", fill:"white",'&:hover':{fill:"red"}}}/> 
         </Box>
         <Box>
-            <BoardMembers editMode={editMode} id={item.id}/>
-            <fieldset className={boardDetails.bodyDetails}>
+            <fieldset className={cardDetails.bodyDetails}>
                 <legend style={{ paddingRight:'5px', fontSize:"14px"}}>
                     <InfoRoundedIcon sx={{fontSize:'14px'}}/>
                     Details
                 </legend>
                 {editMode ? 
                 <Box>
-                    <Typography>Created at : {item.createdAt}</Typography>Since you are the owner of this board, you can delete, change name and manage members of it.
+                    <Typography>Created at : {card.createdAt}</Typography>Since you are the owner of this board, you can delete, change name and manage members of it.
                 </Box>                
                 :
                 <Box>
-                    <Typography>Created at : {item.createdAt}</Typography>You are member of this board.Therefore, you can only display the details.
+                    <Typography>Created at : {card.createdAt}</Typography>You are member of this board.Therefore, you can only display the details.
                 </Box>}
             </fieldset>
         </Box>
-        <Box className={boardDetails.footer} >
+        <Box className={cardDetails.footer} >
             <Typography>{editMode ? "Delete" : "Display Mode"}</Typography>
-            {editMode ? <DeleteIcon sx={{cursor:"pointer", transition:'0.3s ease-in-out', '&:hover' : {color:"red"}}} onClick={handleDeleteBoard}/> : <VisibilityIcon/>}
+            {editMode ? <DeleteIcon onClick={handleDeleteCard} sx={{cursor:"pointer", transition:'0.3s ease-in-out', '&:hover' : {color:"red"}}}/> : <VisibilityIcon/>}
         </Box>
     </Box>
-)}
+  )
+}

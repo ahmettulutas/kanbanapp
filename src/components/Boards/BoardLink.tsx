@@ -19,7 +19,6 @@ export default function BoardLink({item, key}:any) {
     <ListItem sx={{...classes.listItem}} button key={item.id}>
         <EditIcon onClick={handleOpenModal} sx={{...classes.editIcon}}  /> 
         <Modal
-        sx={{}}
             open={openBoardDetails}
             onClose={handleOpenModal}
             aria-labelledby="modal-modal-title"

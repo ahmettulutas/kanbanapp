@@ -1,7 +1,6 @@
 import { Button, Grid, Paper, Typography } from '@mui/material';
 import React, {useState} from 'react';
 import { makeStyles } from '@mui/styles';
-import InputCard from './Card/InputCard';
 import { Box } from '@mui/system';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
 
@@ -52,20 +51,23 @@ export default function AddItem({display, add}:any) {
   const classes = useStyles();
   const handleSubmit = (e:any) => {
     e.preventDefault();
-    add(title);
-    setTitle("");
+    if(title.length > 0){
+      add(title);
+      setTitle("");
+    }
+    return;
   }
     return (
-      <Box onBlur={()=> setOpen(false)}  className={classes.root}>
-        { open ?
+      <Box onBlur={()=> setOpen(false)} className={classes.root}>
+        {open ?
           <form onSubmit={handleSubmit} className={classes.form}>
             <input value={title} onChange={(e:any) => setTitle(e.target.value)} className={classes.textfield} autoFocus placeholder="type a name..." type="text" ></input>
-            <button onClick={handleSubmit} className={classes.submitbutton} type="submit">Add</button>
+            <button onMouseDown={handleSubmit} className={classes.submitbutton} type="submit">Add</button>
           </form> 
           : 
-          <Box sx={{display:"flex", justifyContent:"flex-start", width:"100%"}}>
-            <Typography>Add...</Typography>
-            <AddCircleOutlineRoundedIcon onClick={() => setOpen(true)}>Add a card...</AddCircleOutlineRoundedIcon>
+          <Box onClick={() => setOpen(true)} sx={{width:"auto", display:"flex", gap:"1rem", justifyContent:"flex-start"}}>
+            <Typography>Add</Typography>
+            <AddCircleOutlineRoundedIcon></AddCircleOutlineRoundedIcon>
           </Box>
         } 
       </Box>

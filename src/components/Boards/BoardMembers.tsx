@@ -4,7 +4,7 @@ import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import Chip from '@mui/material/Chip';
 
 import { IconButton, InputAdornment, InputBase,} from '@mui/material';
-import {updateBoard, getBoards} from './BoardsSlice';
+import {updateBoard, getAllBoards} from './BoardsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store';
 import PersonIcon from '@mui/icons-material/Person';
@@ -96,7 +96,7 @@ export default function BoardMembers({id, editMode}:any) {
           console.log("error adding member to the server", err);
         
       }).finally(() => {
-        dispatch(getBoards());
+        dispatch(getAllBoards());
         setMemberName("");
       })
   }
@@ -108,7 +108,7 @@ export default function BoardMembers({id, editMode}:any) {
           console.log("error deleting member from the server", err);
         
       }).finally(() => {
-        dispatch(getBoards());
+        dispatch(getAllBoards());
       })
       console.log(item.BoardMember.id)
   }
