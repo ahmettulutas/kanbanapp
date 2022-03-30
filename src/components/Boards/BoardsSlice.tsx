@@ -123,7 +123,10 @@ const boardSlice = createSlice({
             state.error = true;
         },
         [getSingleBoard.fulfilled.toString()]: (state:any, action:any) => {
-            state.singleBoard = action.payload;
+            const sortfnc = ((a:any, b:any) => a.order - b.order);
+            const sortedList = action.payload.lists.sort(((a:any, b:any) => sortfnc(a, b)))
+            const orderedSingleBoard = {...action.payload, lists: sortedList};
+            state.singleBoard = orderedSingleBoard;
         },
         [getSingleBoard.pending.toString()]: (state:any) => {
             state.isloading = true;

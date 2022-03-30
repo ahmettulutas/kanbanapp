@@ -12,14 +12,10 @@ import {SiTrello} from 'react-icons/si';
 import { Link } from 'react-router-dom';
 import {FaUserEdit} from 'react-icons/fa';
 import { useSelector } from 'react-redux';
-import { selectList } from './List/ListSlice';
+import { selectSingleBoard } from './Boards/BoardsSlice';
 
 export default function ResponsiveAppBar () {
-  const lists = useSelector(selectList);
-  const boardTitle = lists.length > 0 ? lists[0].board.title : '';
-  React.useEffect(() => {
-
-  },[])
+  const boardTitle = useSelector(selectSingleBoard).title;
 
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const handleOpenUserMenu = (event:any) => {
