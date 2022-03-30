@@ -31,8 +31,8 @@ export default function ListComponent({list, index}:any) {
     dispatch(getCards(list.id));
   }, [dispatch])
 
-  const handleUpdateList = (title:any) => {
-    dispatch(updateList({id:list.id, title}));
+  const handleUpdateList = (item:any) => {
+    dispatch(updateList({...item, id:list.id}));
   }
   const handleAddNewCard = (title:any) => {
     // maxOrder gets the last cards order value.

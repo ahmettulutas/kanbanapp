@@ -61,6 +61,16 @@ export const classes = {
         boxShadow: "50",
         display:'flex',
         justifyContent:"center",
-        minHeight:"150px",    
+        minHeight:"150px",  
+        borderRadius:"15px",   
       },
+    editIcon:{
+      '&:hover':{fill:'#1572A1'}, 
+      position:"absolute", 
+      height:"20px", 
+      width:"20px", 
+      top:0, 
+      right:4,
+      cursor:"pointer",
+  },
 }

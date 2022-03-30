@@ -10,6 +10,7 @@ titleContainer: {
     justifyContent:"center",
     alignItems:"center",
     border:"3px soid black",
+    minHeight:"38px",
 },
 title: {
     fontSize:"18px",
@@ -34,6 +35,7 @@ form:{
     display:"flex",
     position:"relative",
     alignItems:"stretch",
+    width:"100%",
 },
 checkIcon:{
     color:"orange",
@@ -66,7 +68,7 @@ export default function EditableTitle({title, update}:any) {
     const [editedTitle, setEditedTitle] = useState(title);
     const handleEdit = (e:any) => {
         e.preventDefault();
-        update(editedTitle);
+        update({title:editedTitle});
         setOpen(false);
     }
 /*     useEffect(()=>{

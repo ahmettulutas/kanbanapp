@@ -59,8 +59,10 @@ export const deleteCard = createAsyncThunk (
 export const updateCard = createAsyncThunk (
     "cardSlice/updateCard",
     async (arg:any, {rejectWithValue}) => {
+        const {id} = arg;
+        console.log("argis", arg);
         try {
-            const response = await axios.put(`http://localhost:80/card/${arg.id}`, arg, {headers: {'Authorization': `Bearer ${token}`}});
+            const response = await axios.put(`http://localhost:80/card/${id}`, arg, {headers: {'Authorization': `Bearer ${token}`}});
             console.log("updating card in the server", response.data);
             if (response.status === 200) {
                 return response.data;

@@ -59,25 +59,25 @@ const useStyles = makeStyles ({
 })
 
 export default function BoardDetails({item, open}:any) {
-// item prop is the individual board object, open prop is the state of the modal
-const userId = useSelector(selectUserId);
-useEffect(() => {
-    // checks if the user is the actual owner of the board so that he/she can edit the board
-    if(userId === item.ownerId) {
-        setEditMode(true);
+    // item prop is the individual board object, open prop is the state of the modal
+    const userId = useSelector(selectUserId);
+    useEffect(() => {
+        // checks if the user is the actual owner of the board so that he/she can edit the board
+        if(userId === item.ownerId) {
+            setEditMode(true);
+        }
+        console.log("editmode", item.ownerId, userId)
+    }, [])
+    const [editMode, setEditMode] = useState(false);
+    const dispatch = useDispatch<AppDispatch>();
+    const boardDetails = useStyles();
+    const handleDeleteBoard = () => {
+        dispatch(deleteBoard(item.id));
+        open();
     }
-    console.log("editmode", item.ownerId, userId)
-}, [])
-const [editMode, setEditMode] = useState(false);
-const dispatch = useDispatch<AppDispatch>();
-const boardDetails = useStyles();
-const handleDeleteBoard = () => {
-    dispatch(deleteBoard(item.id));
-    open();
-}
-const handleUpdateBoard = (title:any) => {
-    dispatch(updateBoard({id:item.id, title}));
-}
+    const handleUpdateBoard = (title:any) => {
+        dispatch(updateBoard({...title, id:item.id}));
+    }
 
 return (
     <Box className={boardDetails.root}>

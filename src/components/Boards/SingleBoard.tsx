@@ -43,21 +43,25 @@ export default function SingleBoard() {
 
   const handleAddNewList = (title:string) => {
     // Convert the boardId to Number type and create args for the api call.
-    const args = {boardId:Number(boardId), title:title, order:lists.length +1};
-    dispatch(createList(args));
-    dispatch(getLists(boardId));
+      const args = {boardId:Number(boardId), title:title, order:lists.length +1};
+      const updateList = async () => {
+        await dispatch(createList(args));
+        await dispatch(getLists(boardId));
+      } 
+      updateList();
   }
   const handleDrag = (result:any) => {
     const {destination, source, draggableId, type} = result;
     if (type === 'list') {
-      const allList = [...singleBoard.lists];
+      const allList = [...lists];
       const [removedList] = allList.splice(source.index, 1);
       allList.splice(destination.index, 0, removedList); 
       dispatch(updateSingleBoardWithDnd(allList));
+      console.log("alllists", allList);
       allList.forEach((list:any, index:number) => {
         dispatch(updateList({...list, order:index}));
-        dispatch(getLists(boardId))
       })
+      dispatch(getLists(boardId))
     }
     const sourceList = lists.find((list:any) => list.id === Number(source.droppableId));
     const destinationList = lists.find((list:any) => list.id === Number(destination.droppableId));

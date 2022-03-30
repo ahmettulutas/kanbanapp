@@ -49,6 +49,7 @@ export const updateList = createAsyncThunk(
     "listSlice/updateList",
     async (arg:any, {rejectWithValue}) => {
         const {id} = arg;
+        console.log("listupdtarg", arg);
         try {
             const response = await axios.put(`http://localhost:80/list/${id}`, arg, {headers: {'Authorization': `Bearer ${token}`}});
             console.log("updating list on the server", response.data);
@@ -139,7 +140,7 @@ const listSlice = createSlice({
             state.loading = true;
         },
         [createList.fulfilled.toString()]: (state:any, action:any) => {
-            state.list.push(action.payload);
+            state.list.push({...action.payload, cards:[]});
             state.loading = false;
         },
         [createList.rejected.toString()] : (state:any, action:any) => {
