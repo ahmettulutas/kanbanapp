@@ -96,7 +96,7 @@ export default function SingleBoard() {
     <Droppable droppableId={String(boardId)} direction="horizontal" type="list">
       {(provided:any) => (
         <div className={classes.root}>
-          <div className={classes.lists} {...provided.droppableProps} ref={provided.innerRef}>
+          <div className={classes.lists} ref={provided.innerRef} {...provided.droppableProps} >
             {lists && lists.map((item:any, index:number) => <ListComponent index={index} list={item}/> )}       
             <Box sx={{backgroundColor:"#EBECF0",borderRadius:"5px",display:"flex",flexDirection:"column",height:"fit-content", padding:"1rem auto",}}>
               <AddItem display={false} add={handleAddNewList} />

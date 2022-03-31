@@ -34,7 +34,7 @@ export default function BoardLink({item}:any) {
             <SiTrello />
             <Typography>{item.title}</Typography>
             <AvatarGroup sx={{...classes.smallIcons}} max={3}>
-                {members && item.members.map((item:any) => <Avatar sx={{backgroundColor:`${getRandomColor()}`,...classes.avatarIcon}} key={item.id} alt='user1' >{item.username[0]}</Avatar>)}
+                {members && item.members.map((item:any) => <Avatar sx={{backgroundColor:'#FE9902',...classes.avatarIcon}} key={item.id} alt='user1' >{item.username[0].toUpperCase()}</Avatar>)}
             </AvatarGroup>
         </Link>
     </ListItem>

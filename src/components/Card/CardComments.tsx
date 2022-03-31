@@ -26,6 +26,7 @@ const useStyles = makeStyles ({
         color:'white',
         backgroundColor:'#1572A1',
         border:"none",
+        cursor:"pointer",
         '&:disabled': {
             backgroundColor:'lightgray',
         }
@@ -103,6 +104,7 @@ export default function CardComments({card}:any) {
                     />
                     {cmmntEditMode && 
                     <button 
+                        
                         disabled={newComment.length === 0}
                         className={commentStyles.addButton}
                         onMouseDown={handleAddComment}

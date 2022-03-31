@@ -118,7 +118,10 @@ const cardSlice = createSlice({
         loading:false,
     },
     reducers:{
-        
+/*         addLabel: (state, action) => {
+            const {listId, comment} = action.payload;
+
+        }, */
     },
     extraReducers:{
         [getCards.pending.toString()]: (state, action) => {
@@ -126,13 +129,12 @@ const cardSlice = createSlice({
         },
         [getCards.fulfilled.toString()]: (state:any, action:any) => {
             const {listId, cards} = action.payload;
-            if(action.payload.length > 0) {
-                state.cards = {...state.cards, [listId]:cards}
+            if(cards.length > 0) {
+                state.cards = {...state.cards, [listId]:[...cards]}
             }
             else {
                 state.cards = {...state.cards, [listId]:[]}
             };
-            console.log("allcards", state.cards);
             state.loading = false;
         },
         [getCards.rejected.toString()]: (state:any, action:any) => {

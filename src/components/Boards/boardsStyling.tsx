@@ -104,6 +104,7 @@ export const classes = {
       position:'absolute',
       bottom:"0",
       right:"4px",
+      fontWeight:"bold",
       overflow:"hidden",
 
       },

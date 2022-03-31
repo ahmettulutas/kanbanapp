@@ -17,6 +17,7 @@ export const getAllBoards = createAsyncThunk(
         // no args passed to this thunk and we destructure the rejectWithValue. 
         try {
             let token = await getCookie('token'); 
+            console.log("token", token);
             const response = await axios.get("http://localhost:80/board", {headers: {'Authorization': `Bearer ${token}`}});
             console.log("getting boards from the server", response.data);
             if (response.status === 200) {
@@ -52,7 +53,7 @@ export const createBoard = createAsyncThunk(
     'boardSlice/createBoard',
     async(arg:any, {rejectWithValue}) => {
         try {
-            let token = getCookie('token');
+            let token = getCookie('token'); 
             const response = await axios.post("http://localhost:80/board", arg, {headers: {'Authorization': `Bearer ${token}`}});
             console.log("adding board to the server", response.data);
             if (response.status === 200) {
@@ -84,8 +85,8 @@ export const deleteBoard = createAsyncThunk(
 export const updateBoard = createAsyncThunk(
     'boardSlice/updateBoard',
     async(arg:any, {rejectWithValue}) => {
+        console.log("tokenis",  token);
         const {id, title} = arg;
-        console.log(title)
         try {
             const response = await axios.put(`http://localhost:80/board/${id}`, {title:title}, {headers: {'Authorization': `Bearer ${token}`}});
             console.log("updating board to the server", response.data);

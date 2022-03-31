@@ -23,12 +23,14 @@ const useStyles = makeStyles ({
       padding:"0 0 1rem 0",
   }
 })
-export default function ListComponent({list, index}:any) {
+export default function ListComponent({list}:any, {index}:any) {
   const classes = useStyles();
   const dispatch = useDispatch<AppDispatch>();
-/*   const cards = useSelector(selectCards); */
+  const cards = useSelector(selectCards); 
   useEffect(() => {
     dispatch(getCards(list.id));
+    console.log("cards in the list is", cards);
+    console.log("list is", list.id, "typeof list is", typeof list.id);
   }, [dispatch])
 
   const handleUpdateList = (item:any) => {
@@ -47,12 +49,12 @@ export default function ListComponent({list, index}:any) {
     dispatch(createCard(args));  
   }
    return (
-     <Draggable draggableId={String(list.id)} key={list.id} index={index}>
+     <Draggable draggableId={list && String(list.id)} key={list.id} index={Number(index)}>
        {(provided:any) => (
-         <div {...provided.draggableProps} ref={provided.innerRef} {...provided.dragHandleProps}>
+        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
         <Droppable droppableId={String(list.id)}>
         {(provided:any)=> (
-            <div {...provided.droppableProps} ref={provided.innerRef}>
+            <div ref={provided.innerRef} {...provided.droppableProps} >
               <Box className={classes.root}>    
                 <ListDetails listId={list.id}/>
                 <Box sx={{display:"flex", justifyContent:"center", alignItems:"center", pr:2}}>

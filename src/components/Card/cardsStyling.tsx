@@ -21,28 +21,6 @@ export const getRandomColor = () => {
   let i = Math.floor(Math.random()* colorsPicker.length)
   return colorsPicker[i];
 }
-/* export const useStyles = makeStyles ({
-    root: {
-        backgroundColor:"white",
-        borderRadius:"8px",
-        border:`1px solid ${getRandomColor()}`,
-        margin:"0.1rem 1rem",
-        cursor:"grab",
-        position:"relative",
-        padding:"1rem",
-    },
-    modal:{
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        bgcolor: 'white',
-        boxShadow: "50",
-        display:'flex',
-        justifyContent:"center",
-        minHeight:"150px",    
-      },
-  }) */
 export const classes = {
     root: {
         backgroundColor:"white",
@@ -67,7 +45,8 @@ export const classes = {
         display:'flex',
         justifyContent:"center",
         minHeight:"150px",  
-        borderRadius:"15px",   
+        border:"none",
+        p:0
       },
     editIcon:{
      /*  display:"none", */
