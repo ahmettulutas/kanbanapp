@@ -39,8 +39,8 @@ const useStyles = makeStyles ({
         display:'flex',
         flexDirection:'column',
         padding:"1rem 0",
-        gap:"0.3rem",
-        maxHeight:"350px",
+/*         gap:"0.3rem", */
+        maxHeight:"300px",
         overflow:"scroll"
     },
     commentContainer:{
@@ -60,7 +60,16 @@ const useStyles = makeStyles ({
         display:"flex",
         flexDirection:"column",
         width:"100%",
-    }
+    },
+    deleteButton: {
+        '&:hover':{
+            color:'red',
+        },
+        cursor:"pointer", 
+        margin:"0 0 0 auto", 
+        fontSize:"13px", 
+        textDecoration:"underline"
+    },
 })
 export default function CardComments({card}:any) {
     const {userName} = useSelector(selectAuth);
@@ -109,7 +118,7 @@ export default function CardComments({card}:any) {
                         <div className={commentStyles.commentText}>
                             <Typography sx={{fontWeight:"bold"}}>{comment.author.username}</Typography>
                             <Typography sx={{p:1,backgroundColor:"white", border:"2px solid #ccc"}}>{comment.message}</Typography>
-                            <p style={{margin:"0 0 0 auto", fontSize:"13px", textDecoration:"underline"}} onClick={() => dispatch(deleteComment({listId:card.listId, comment:comment}))}>Delete</p>
+                            <p className={commentStyles.deleteButton} onClick={() => dispatch(deleteComment({listId:card.listId, comment:comment}))}>Delete</p>
                         </div>
                     </Box>
                 ))}
