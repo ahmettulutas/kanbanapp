@@ -26,6 +26,7 @@ const useStyles = makeStyles ({
         color:'white',
         backgroundColor:'#1572A1',
         border:"none",
+        cursor:"pointer",
         '&:disabled': {
             backgroundColor:'lightgray',
         }
@@ -39,8 +40,7 @@ const useStyles = makeStyles ({
         display:'flex',
         flexDirection:'column',
         padding:"1rem 0",
-/*         gap:"0.3rem", */
-        maxHeight:"300px",
+        maxHeight:"200px",
         overflow:"scroll"
     },
     commentContainer:{
@@ -51,8 +51,8 @@ const useStyles = makeStyles ({
     avatar: {
         color:"rgb(21,50,83)", 
         fontWeight:'bold',
-        height:'30px',
-        width:'30px',
+        height:'25px',
+        width:'25px',
         padding:'4px',
         backgroundColor:"#00A3BF"
     },
@@ -104,6 +104,7 @@ export default function CardComments({card}:any) {
                     />
                     {cmmntEditMode && 
                     <button 
+                        
                         disabled={newComment.length === 0}
                         className={commentStyles.addButton}
                         onMouseDown={handleAddComment}
@@ -117,7 +118,7 @@ export default function CardComments({card}:any) {
                         <Avatar className={commentStyles.avatar}>{comment.author.username[0].toUpperCase()}</Avatar>
                         <div className={commentStyles.commentText}>
                             <Typography sx={{fontWeight:"bold"}}>{comment.author.username}</Typography>
-                            <Typography sx={{p:1,backgroundColor:"white", border:"2px solid #ccc"}}>{comment.message}</Typography>
+                            <Typography sx={{borderRadius:"5px", fontSize:"13px", p:1,backgroundColor:"white", border:"2px solid #ccc"}}>{comment.message}</Typography>
                             <p className={commentStyles.deleteButton} onClick={() => dispatch(deleteComment({listId:card.listId, comment:comment}))}>Delete</p>
                         </div>
                     </Box>

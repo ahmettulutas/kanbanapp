@@ -10,6 +10,7 @@ import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
 import {deleteCard, getCards } from './CardSlice';
 import { updateCard } from './CardSlice';
 import CardComments from './CardComments';
+import CardLabels from './CardLabels';
 /* import InputBase from '@mui/material/InputBase'; */
 
 const useStyles = makeStyles ({
@@ -17,7 +18,7 @@ const useStyles = makeStyles ({
         display:'grid', 
         gridTemplateRows:'auto 1fr auto',
         width:"100%",
-        minHeight:"400px",
+        minHeight:"90vh",
         height:"auto",
         backgroundColor:'#EBECF0',
     },
@@ -30,10 +31,6 @@ const useStyles = makeStyles ({
         position:'relative',
         padding:"0.2rem",
     },
-    title: {
-        fontSize:'20px',
-        padding:"auto",
-    },
     body: {
         padding:"1rem",
         display:"flex",
@@ -43,7 +40,6 @@ const useStyles = makeStyles ({
         gap:"0.2rem", 
         flexWrap:"wrap", 
         display:"flex", 
-        borderRadius:"20px", 
         margin:"1rem",
         padding:"0.6rem", 
     },
@@ -75,6 +71,7 @@ const useStyles = makeStyles ({
         color:'white',
         backgroundColor:'#1572A1',
         border:"none",
+        cursor:"pointer",
         '&:disabled': {
             backgroundColor:'lightgray',
         }
@@ -88,11 +85,11 @@ const useStyles = makeStyles ({
 
 export default function CardDetails({card, open}:any) {
     useEffect(() => {
-        console.log("card details rendered", card)
-    })
+        console.log("card details rendered", card); 
+    },[])
     const dispatch = useDispatch<AppDispatch>();
     const [desceditMode, setDesceditMode ] = useState(false);
-    const [description, setDescription] = useState(card.description)
+    const [description, setDescription] = useState(card.description ? card.description : "");
     const cardDetails = useStyles();
     const handleDeleteCard = () => {
         dispatch(deleteCard({id:card.id, listId:card.listId}));
@@ -106,10 +103,12 @@ export default function CardDetails({card, open}:any) {
   return (
     <Box className={cardDetails.root}>
         <Box className={cardDetails.header}>
-            <EditableTitle update={handleUpdateCard} title={card.title}/>
+                <EditableTitle update={handleUpdateCard} title={card.title}/>
             <CloseIcon onClick={open} sx={{position:"absolute", right:3, top:7, fontSize:"x-large", cursor:"pointer", fill:"white",'&:hover':{fill:"red"}}}/> 
         </Box>
         <Box className={cardDetails.bodyDetails}>
+        <Box sx={{display:"flex",width:"100%", gap:"1rem", justifyContent:"space-between"}}>
+            <CardLabels card={card}/>
             <Box sx={{display:"flex", width:"100%", alignItems:"flex-start", gap:0.5, flexDirection:'row'}}>
                 <form className={cardDetails.form} onSubmit={(e:any)=> {
                 e.preventDefault();
@@ -133,7 +132,8 @@ export default function CardDetails({card, open}:any) {
                     }
                 </form>
             </Box>
-        <CardComments card={card}/>
+            </Box>
+            <CardComments card={card}/>
         </Box>
         <Box className={cardDetails.footer} >
             <Typography>Delete</Typography>
