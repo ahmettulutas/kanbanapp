@@ -12,7 +12,7 @@ const useStyles = makeStyles ({
       display:"flex",
       alignItems:"center",
       justifyContent:"space-between",
-      padding:"1rem",
+      padding:"1rem 0",
   },
   form: {
     display:"grid",

@@ -85,10 +85,9 @@ export const updateBoard = createAsyncThunk(
     'boardSlice/updateBoard',
     async(arg:any, {rejectWithValue}) => {
         const {id, title} = arg;
-        console.log("arg", arg);
-        console.log("title", title);
+        console.log(title)
         try {
-            const response = await axios.put(`http://localhost:80/board/${id}`, arg, {headers: {'Authorization': `Bearer ${token}`}});
+            const response = await axios.put(`http://localhost:80/board/${id}`, {title:title}, {headers: {'Authorization': `Bearer ${token}`}});
             console.log("updating board to the server", response.data);
             if (response.status === 200) {
                 return response.data;

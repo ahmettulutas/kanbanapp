@@ -14,7 +14,7 @@ export const getCards = createAsyncThunk(
             const response = await axios.get(`http://localhost:80/card?listId=${arg}`, {headers: {'Authorization': `Bearer ${token}`}});
             console.log("getting cards from the server", response.data);
             if (response.status === 200) {
-                return response.data;
+                return {listId:arg, cards:response.data};
             }
             else {
                 return rejectWithValue(response);
@@ -99,6 +99,7 @@ export const deleteComment = createAsyncThunk (
             const response = await axios.delete(`http://localhost:80/comment/${arg.comment.id}`, {headers: {'Authorization': `Bearer ${token}`}});
             console.log("deleting comment from the server", response.data);
             if (response.status === 200) {
+                console.log({listId:listId, comment:arg.comment});
                 return {listId:listId, comment:arg.comment};
             }
             else {
@@ -124,7 +125,14 @@ const cardSlice = createSlice({
             state.loading = true;
         },
         [getCards.fulfilled.toString()]: (state:any, action:any) => {
-            state.cards = {...state.cards, [action.payload[0].listId]: action.payload};
+            const {listId, cards} = action.payload;
+            if(action.payload.length > 0) {
+                state.cards = {...state.cards, [listId]:cards}
+            }
+            else {
+                state.cards = {...state.cards, [listId]:[]}
+            };
+            console.log("allcards", state.cards);
             state.loading = false;
         },
         [getCards.rejected.toString()]: (state:any, action:any) => {
@@ -179,9 +187,9 @@ const cardSlice = createSlice({
         [addComment.fulfilled.toString()]: (state:any, action:any) => {
             const {cardId} = action.payload.comment;
             const {listId} = action.payload;
-            state.cards[listId].map((card:any) => {
+            state.cards[listId] = state.cards[listId].map((card:any) => {
                 if (card.id === cardId) {
-                    card.comments.push(action.payload.comment);
+                    card.comments = [...card.comments, action.payload.comment];
                 }
                 return card;
             })
@@ -191,9 +199,9 @@ const cardSlice = createSlice({
         },
         [deleteComment.fulfilled.toString()]: (state:any, action:any) => {
             const {listId, comment} = action.payload;
-            state.cards[listId].map((card:any) => {
+            state.cards[listId] = state.cards[listId].map((card:any) => {
                 if (card.id === comment.cardId) {
-                    card.comments = card.comments.filter((item:any) => item.id !== comment.id);
+                    card.comments = card.comments.filter((item:any) => item.id === comment.id);
                 }
                 return card;
             })

@@ -92,7 +92,7 @@ export default function CardDetails({card, open}:any) {
     })
     const dispatch = useDispatch<AppDispatch>();
     const [desceditMode, setDesceditMode ] = useState(false);
-    const [description, setDescription] = useState(card.description)
+    const [description, setDescription] = useState(card.description ? card.description : "");
     const cardDetails = useStyles();
     const handleDeleteCard = () => {
         dispatch(deleteCard({id:card.id, listId:card.listId}));
