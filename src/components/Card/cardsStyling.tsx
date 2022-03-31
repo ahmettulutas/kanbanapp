@@ -51,6 +51,11 @@ export const classes = {
         cursor:"grab",
         position:"relative",
         padding:"1rem",
+        '&:hover': {
+          "& $editIcon": {
+            fontSize:"24px"
+          }
+        },
     },
     modal:{
         position: 'absolute',
@@ -65,10 +70,11 @@ export const classes = {
         borderRadius:"15px",   
       },
     editIcon:{
-      '&:hover':{fill:'#1572A1'}, 
+     /*  display:"none", */
+      '&:hover':{fill:'orange'}, 
+      fill:"#1572A1",
       position:"absolute", 
-      height:"20px", 
-      width:"20px", 
+      fontSize:"16px", 
       top:0, 
       right:4,
       cursor:"pointer",

@@ -54,6 +54,7 @@ const authSlice = createSlice({
         failed:false,
         token: getCookie('token'),
         userId: "",
+        userName:"",
     },
     reducers:{},
     extraReducers: {
@@ -65,6 +66,7 @@ const authSlice = createSlice({
             state.token = action.payload.token;
             state.success = true;
             state.userId = action.payload.id;
+            state.userName = action.payload.username;
         },
         [login.rejected.toString()]: (state:any, action: any) => {
             state.loading = false;
@@ -77,6 +79,7 @@ const authSlice = createSlice({
             state.loading = false;
             state.success = true;
             state.token = action.payload;
+            state.userName = action.payload.username;
         },
         [register.rejected.toString()]: (state:any) => {
             state.loading = false;
@@ -92,3 +95,4 @@ export const selectSuccess = (state:any) => state.auth.success;
 export const selectUserId = (state:any) => state.auth.userId;
 export const selectFailed = (state:any) => state.auth.failed;
 export const selectAuth = (state:any) => state.auth;
+

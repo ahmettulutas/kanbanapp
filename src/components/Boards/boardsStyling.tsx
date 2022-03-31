@@ -112,7 +112,6 @@ export const classes = {
         height:'11px',
         width:'11px',
         padding:'4px',
-        fontSize:"12px",
-        
+        fontSize:"12px",  
   },
 }

@@ -27,7 +27,7 @@ export default function Boards() {
   }
   return (
     <Box style={classes.root}>
-      <List sx={{...classes.listContainer}}>
+      <List sx={{zIndex:100, ...classes.listContainer}}>
         {boards && boards.map((item:any, key:any) => <BoardLink key={key} item={item} />)}
         <ListItem sx={{...classes.listItem}} button onClick={()=> setOpenAddDialog(!openAddDialog)}><SiAddthis/><Typography>Add</Typography></ListItem>
       </List>
@@ -37,11 +37,11 @@ export default function Boards() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-      <Grid container xs={11} md={6} sx={{zIndex:1, ...classes.modal}}>
-        <AddItem display={true} add={addNewBoard}/>
-      </Grid>
+        <Grid container xs={11} md={6} sx={{...classes.modal}}>
+          <AddItem display={true} add={addNewBoard}/>
+        </Grid>
       </Modal>
-      <img style={{zIndex:'2', position:"absolute", bottom:0, right:0, width:"auto", height:"450px"}} alt="kanban" src={illustration}/>
+      <img style={{zIndex:'0', position:"absolute", bottom:0, right:0, width:"auto", height:"450px"}} alt="kanban" src={illustration}/>
     </Box>
 )}
  

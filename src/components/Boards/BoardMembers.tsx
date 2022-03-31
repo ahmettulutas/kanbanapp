@@ -2,7 +2,6 @@ import {useEffect, useState} from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import Chip from '@mui/material/Chip';
-
 import { IconButton, InputAdornment, InputBase,} from '@mui/material';
 import {updateBoard, getAllBoards} from './BoardsSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -96,6 +95,7 @@ export default function BoardMembers({id, editMode}:any) {
           console.log("error adding member to the server", err);
         
       }).finally(() => {
+        // instead of making a getAllBoards call i must dispatch a normal action to push the member to the board slice.
         dispatch(getAllBoards());
         setMemberName("");
       })
@@ -106,7 +106,7 @@ export default function BoardMembers({id, editMode}:any) {
           console.log("deleting member from the server", res.data);
       }).catch(err => {
           console.log("error deleting member from the server", err);
-        
+        // instead of making a getAllBoards call i must dispatch a normal action to push the member to the board slice.
       }).finally(() => {
         dispatch(getAllBoards());
       })

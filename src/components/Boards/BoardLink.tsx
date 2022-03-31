@@ -1,4 +1,4 @@
-import { Avatar, AvatarGroup, Grid, ListItem, Modal, Typography } from '@mui/material';
+import { Avatar, AvatarGroup, Grid, ListItem, Modal, Tooltip, Typography } from '@mui/material';
 import { classes, getRandomColor } from './boardsStyling';
 import React, { useState, useEffect } from 'react'
 import EditIcon from '@mui/icons-material/Edit';
@@ -7,7 +7,7 @@ import BoardDetails from './BoardDetails';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-export default function BoardLink({item }:any) {
+export default function BoardLink({item}:any) {
     // selector to get board members
     const members = useSelector((state:any) => state.boardSlice.boards.find((board:any) => board.id === item.id)?.members)
     // function to control boarddetails modal
@@ -17,7 +17,9 @@ export default function BoardLink({item }:any) {
     }
     return (
     <ListItem sx={{...classes.listItem}} button key={item.id}>
-        <EditIcon onClick={handleOpenModal} sx={{...classes.editIcon}}  /> 
+        <Tooltip title="Board details" >
+            <EditIcon onClick={handleOpenModal} sx={{...classes.editIcon}}  /> 
+        </Tooltip>
         <Modal
             open={openBoardDetails}
             onClose={handleOpenModal}

@@ -4,7 +4,7 @@ import ListComponent from '../List/ListComponent';
 import { Box } from '@mui/system';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store';
-import { updateListWithDnd , selectList, getLists} from '../List/ListSlice';
+import { updateListCardsWithDnd, updateListsWithDnd, selectList, getLists} from '../List/ListSlice';
 import AddItem from '../AddItem';
 import { useParams } from 'react-router-dom';
 import { Typography } from '@mui/material';
@@ -35,9 +35,7 @@ export default function SingleBoard() {
   const cards = useSelector(selectCards);
   const {boardId} = useParams(); // get boardId from url. Be careful boardId returns string.
   const lists = useSelector(selectList);
-  const singleBoard = useSelector(selectSingleBoard);
   useEffect(()=> {
-    dispatch(getSingleBoard(boardId));
     dispatch(getLists(boardId))
   },[dispatch, cards])
 
@@ -56,12 +54,17 @@ export default function SingleBoard() {
       const allList = [...lists];
       const [removedList] = allList.splice(source.index, 1);
       allList.splice(destination.index, 0, removedList); 
+      console.log("allList", allList);
       dispatch(updateSingleBoardWithDnd(allList));
-      console.log("alllists", allList);
       allList.forEach((list:any, index:number) => {
         dispatch(updateList({...list, order:index}));
       })
-      dispatch(getLists(boardId))
+      /* dispatch(getLists(boardId)) */
+      const updatedList = allList.map((item:any, index:number) => {
+        return {...item, order:index}
+      })
+      console.log("updatedList", updatedList);
+      dispatch(updateListsWithDnd(updatedList));
     }
     const sourceList = lists.find((list:any) => list.id === Number(source.droppableId));
     const destinationList = lists.find((list:any) => list.id === Number(destination.droppableId));
@@ -76,7 +79,7 @@ export default function SingleBoard() {
       destinationCards.forEach((card:any, index:number) => {
         dispatch(updateCard({id:card.id, order:index, listId:Number(destination.droppableId)}));
       })
-      dispatch(updateListWithDnd({sourceId:Number(source.droppableId), destinationId:Number(destination.droppableId), sourceCards, destinationCards, draggableId}));
+      dispatch(updateListCardsWithDnd({sourceId:Number(source.droppableId), destinationId:Number(destination.droppableId), sourceCards, destinationCards, draggableId}));
       } 
 /* ---------------------------- Same List Condition --------------------- */ 
       else {
@@ -85,7 +88,7 @@ export default function SingleBoard() {
         sourceCards.forEach((card:any, index:number) => {
           dispatch(updateCard({id:card.id, order:index, listId:Number(destination.droppableId)}));
         })
-        dispatch(updateListWithDnd({sourceId:Number(source.droppableId), destinationId:Number(destination.droppableId), sourceCards, destinationCards, draggableId}));
+        dispatch(updateListCardsWithDnd({sourceId:Number(source.droppableId), destinationId:Number(destination.droppableId), sourceCards, destinationCards, draggableId}));
       }
 }
   return (

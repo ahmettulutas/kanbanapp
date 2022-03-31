@@ -26,6 +26,7 @@ export default function Card({ card, id, index}:any) {
                             <EditIcon onClick={handleOpenModal} sx={{...classes.editIcon}} /> 
                         </Tooltip>
                         <Modal
+                            disableScrollLock={true}
                             open={openCardDetails}
                             onClose={handleOpenModal}
                             aria-labelledby="modal-modal-title"

@@ -7,8 +7,9 @@ import { makeStyles } from '@mui/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '../../store';
 import InfoRoundedIcon from '@mui/icons-material/InfoRounded';
-import {deleteCard } from './CardSlice';
+import {deleteCard, getCards } from './CardSlice';
 import { updateCard } from './CardSlice';
+import CardComments from './CardComments';
 /* import InputBase from '@mui/material/InputBase'; */
 
 const useStyles = makeStyles ({
@@ -17,6 +18,9 @@ const useStyles = makeStyles ({
         gridTemplateRows:'auto 1fr auto',
         width:"100%",
         minHeight:"400px",
+        height:"auto",
+        backgroundColor:'#EBECF0',
+        padding:"1rem 0",
     },
     header: {
         display:'flex',
@@ -64,22 +68,43 @@ const useStyles = makeStyles ({
     descriptionButton: {
         width:"30%",
     },
-    commentForm:{
-
-    }
+    addButton: {
+        width:"30%",
+        position:"absolute",
+        bottom:"0",
+        margin:"0.6rem",
+        left:"0",
+        height:"30px",
+        color:'white',
+        backgroundColor:'#1572A1',
+        border:"none",
+        '&:disabled': {
+            backgroundColor:'lightgray',
+        }
+    },
+    form: {
+        position:"relative",
+        width:"100%",
+        backgroundColor:"white",
+    },
 })
 
 export default function CardDetails({card, open}:any) {
-    const [description, setDescription] = useState(card.description)
+    useEffect(() => {
+        console.log("card details rendered", card)
+    })
     const dispatch = useDispatch<AppDispatch>();
-    const [editMode, setEditMode ] = useState(false);
+    const [desceditMode, setDesceditMode ] = useState(false);
+    const [description, setDescription] = useState(card.description)
     const cardDetails = useStyles();
     const handleDeleteCard = () => {
         dispatch(deleteCard({id:card.id, listId:card.listId}));
     }
     const handleUpdateCard = (item:any) => {
+        // this function both updates card's title or card's description.
         console.log("item", item)
         dispatch(updateCard({...item, id:card.id}));
+        dispatch(getCards(card.listId));
     }
   return (
     <Box className={cardDetails.root}>
@@ -88,22 +113,30 @@ export default function CardDetails({card, open}:any) {
             <CloseIcon onClick={open} sx={{position:"absolute", right:3, top:7, fontSize:"x-large", cursor:"pointer", fill:"white",'&:hover':{fill:"red"}}}/> 
         </Box>
         <Box className={cardDetails.bodyDetails}>
-            <Box className={cardDetails.descriptionForm}>
-                <TextField 
-                    onChange={(e:any) => setDescription(e.target.value)}
-                    onBlur={() => setEditMode(false)} 
-                    onFocus={() => setEditMode(!editMode)} 
-                    value={description} 
-                    label="Card Description"/>
-                {editMode && 
-                    <button className={cardDetails.descriptionButton}
-                        onMouseDown={() => handleUpdateCard({description:description})}
-                    >Add</button>
-                }
+            <Box sx={{display:"flex", width:"100%", alignItems:"flex-start", gap:0.5, flexDirection:'row'}}>
+                <form className={cardDetails.form} onSubmit={(e:any)=> {
+                e.preventDefault();
+                handleUpdateCard({description:description})}}>
+                    <TextField 
+                        value={description}
+                        label="Description" 
+                        fullWidth
+                        multiline
+                        rows={3}
+                        onChange={(e:any) => setDescription(e.target.value)}
+                        onBlur={() => setDesceditMode(false)} 
+                        onFocus={() => setDesceditMode(!desceditMode)} 
+                    />
+                    {desceditMode && 
+                    <button 
+                        disabled={description.length === 0}
+                        className={cardDetails.addButton}
+                        onMouseDown={()=> handleUpdateCard({description:description})}>
+                    Add</button>
+                    }
+                </form>
             </Box>
-            <Box className={cardDetails.commentForm}>
-                <TextField value="comment" label="Add Comment" fullWidth    />
-            </Box>
+        <CardComments card={card}/>
         </Box>
         <Box className={cardDetails.footer} >
             <Typography>Delete</Typography>

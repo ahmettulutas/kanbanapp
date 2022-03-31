@@ -30,7 +30,6 @@ export const getLists = createAsyncThunk(
 export const createList = createAsyncThunk(
     'listSlice/createList',
     async(arg:any, {rejectWithValue}) => {
-        console.log("arg", arg);
         try {
             const response = await axios.post("http://localhost:80/list", arg, {headers: {'Authorization': `Bearer ${token}`}});
             console.log("adding list to the server", response.data);
@@ -49,7 +48,6 @@ export const updateList = createAsyncThunk(
     "listSlice/updateList",
     async (arg:any, {rejectWithValue}) => {
         const {id} = arg;
-        console.log("listupdtarg", arg);
         try {
             const response = await axios.put(`http://localhost:80/list/${id}`, arg, {headers: {'Authorization': `Bearer ${token}`}});
             console.log("updating list on the server", response.data);
@@ -90,7 +88,7 @@ const listSlice = createSlice({
     },
     reducers: {
         // this function prevents dnd from waiting for api response.
-         updateListWithDnd: (state:any, action:any) => {
+         updateListCardsWithDnd: (state:any, action:any) => {
             const {sourceId, destinationId, sourceCards, destinationCards } = action.payload;
             const list = state.list.map((item:any) => {
                 if (item.id === sourceId) {
@@ -103,6 +101,10 @@ const listSlice = createSlice({
             });
             console.log("list", list);
             return {...state, list:list};
+        },
+        updateListsWithDnd: (state:any, action:any) => {
+            console.log("listinthestate", action.payload);
+            state.list = action.payload;
         } 
     },
     extraReducers: {
@@ -159,5 +161,5 @@ const listSlice = createSlice({
     }
 })
 export default listSlice.reducer;
-export const {updateListWithDnd} = listSlice.actions;
+export const {updateListCardsWithDnd, updateListsWithDnd} = listSlice.actions;
 export const selectList = (state:any) => state.listSlice.list;

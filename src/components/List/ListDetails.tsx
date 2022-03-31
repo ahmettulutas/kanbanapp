@@ -25,12 +25,12 @@ export default function ListDetails({listId}:any) {
             <IconButton
                 onClick={handleClick}
                 size="small"
-                sx={{position:"absolute", top:0, right:0, ml: 2 }}
+                sx={{position:"absolute", top:0, right:0, ml:2}}
                 aria-controls={open ? 'account-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
                 >
-            <MoreVertIcon />
+            <MoreVertIcon sx={{fill:"#1572A1"}} />
             </IconButton>
         </Tooltip>
         <Menu
