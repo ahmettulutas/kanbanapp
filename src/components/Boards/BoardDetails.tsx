@@ -40,7 +40,6 @@ const useStyles = makeStyles ({
         gap:"0.2rem", 
         flexWrap:"wrap", 
         display:"flex", 
-        borderRadius:"20px", 
         margin:"1rem",
         padding:"0.6rem", 
     },
