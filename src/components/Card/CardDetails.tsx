@@ -132,7 +132,7 @@ export default function CardDetails({card, open}:any) {
                     }
                 </form>
             </Box>
-            </Box>
+        </Box>
             <CardComments card={card}/>
         </Box>
         <Box className={cardDetails.footer} >

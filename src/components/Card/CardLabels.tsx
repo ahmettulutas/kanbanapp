@@ -23,8 +23,9 @@ const useStyles = makeStyles ({
         position:"relative",
         marginBottom:0,
         width:"100%",
-        padding:"0.5rem",
-        height:"100px",
+        height:"100%",
+        padding:"0 1rem",
+        backgroundColor:"white",    
     },
 })
 
@@ -73,7 +74,7 @@ export default function CardLabels({card}:any) {
     }
         return (
             <fieldset className={classes.fieldset}>
-                <legend>Labels</legend>
+                <legend style={{padding:"0 0.4rem"}}>Labels</legend>
                 <Box>
                     <Tooltip title="Add Label">
                         <IconButton
